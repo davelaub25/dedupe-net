@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dedup.NET", "Dedup.NET\Dedup.NET.csproj", "{D2990F6B-ED8C-48E3-B1A8-0945BC97B33F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DedupeNET", "Dedup.NET\DedupeNET.csproj", "{D2990F6B-ED8C-48E3-B1A8-0945BC97B33F}"
 EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Deduplicator.UI", "Deduplicator.UI\", "{5C76D790-8BB2-42F9-9AD7-826EFBC62518}"
 	ProjectSection(WebsiteProperties) = preProject

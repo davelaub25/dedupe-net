@@ -8,8 +8,8 @@
     <ProjectGuid>{D2990F6B-ED8C-48E3-B1A8-0945BC97B33F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Dedup.NET</RootNamespace>
-    <AssemblyName>Dedup.NET</AssemblyName>
+    <RootNamespace>DedupeNET</RootNamespace>
+    <AssemblyName>DedupeNET</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -40,7 +40,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\DistanceFunction.cs" />
+    <Compile Include="Core\MeasurementFunction.cs" />
+    <Compile Include="Core\SimilarityFunction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StringFunctions\Levenshtein.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
