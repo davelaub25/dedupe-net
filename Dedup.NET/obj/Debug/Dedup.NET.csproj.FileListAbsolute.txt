@@ -1,0 +1,5 @@
+I:\Desarrollo\Deduplicacion AN\Deduplicator\Dedup.NET\bin\Debug\Dedup.NET.dll
+I:\Desarrollo\Deduplicacion AN\Deduplicator\Dedup.NET\bin\Debug\Dedup.NET.pdb
+I:\Desarrollo\Deduplicacion AN\Deduplicator\Dedup.NET\obj\Debug\ResolveAssemblyReference.cache
+I:\Desarrollo\Deduplicacion AN\Deduplicator\Dedup.NET\obj\Debug\Dedup.NET.dll
+I:\Desarrollo\Deduplicacion AN\Deduplicator\Dedup.NET\obj\Debug\Dedup.NET.pdb
