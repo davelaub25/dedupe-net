@@ -7,6 +7,8 @@ namespace DedupeNET.Core
 {
     public abstract class CostFunction
     {
+        public double Offset { get; set; }
+
         public abstract double GetCost(char a, char b);
     }
 }
