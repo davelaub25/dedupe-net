@@ -12,8 +12,8 @@ namespace DedupeNET.StringFunctions
     {
         private double[,] editMatrix;
 
-        private EditPath editPath;
-        public EditPath EditPath
+        private Alignment editPath;
+        public Alignment EditPath
         {
             get
             {
@@ -35,7 +35,7 @@ namespace DedupeNET.StringFunctions
         public double Distance(CostFunction costFunction)
         {
             editMatrix = new double[FirstString.Length + 1, SecondString.Length + 1];
-            editPath = new EditPath();
+            editPath = new Alignment();
 
             editMatrix[0, 0] = 0;
 
@@ -70,24 +70,27 @@ namespace DedupeNET.StringFunctions
 
         public double NormalizedDistance(UniformCostFunction costFunction)
         {
-            List<double> Q = RequiredλValues(costFunction);
+            List<double> Q = RequiredLambdaValues(costFunction);
 
             while (true)
             {
-                double λmed = DeduplicationMath.Median(Q);
-                double solution = 0;
+                double lambdaMed = DeduplicationMath.Median(Q);
+                costFunction.MatchOffset = lambdaMed;
+                costFunction.NonMatchOffset = lambdaMed;
+
+                double solution = Distance(costFunction) - lambdaMed * (FirstString.Length + SecondString.Length);
 
                 if (solution == 0)
                 {
-                    return λmed;
+                    return lambdaMed;
                 }
                 else if (solution < 0)
                 {
-                    Q = Q.Where(n => n > λmed).ToList();
+                    Q = Q.Where(n => n < lambdaMed).ToList();
                 }
                 else if (solution > 0)
                 {
-                    Q = Q.Where(n => n < λmed).ToList();
+                    Q = Q.Where(n => n > lambdaMed).ToList();
                 }
             }
         }
@@ -130,22 +133,21 @@ namespace DedupeNET.StringFunctions
             }
         }
 
-        private List<double> RequiredλValues(UniformCostFunction costFunction)
+        private List<double> RequiredLambdaValues(UniformCostFunction costFunction)
         {
             List<double> Q = new List<double>();
 
-            int m = editPath.Deletions + editPath.Matches + editPath.NonMatches;
-            int n = editPath.Insertions + editPath.Matches + editPath.NonMatches;
+            int m = FirstString.Length;
+            int n = SecondString.Length;
+            int minLength = Math.Min(m, n);
+            double lambda = 0;
 
-            int min = Math.Min(m, n);
-            double λ = 0;
-
-            for (int r = 0; r <= min; r++)
+            for (int r = 0; r <= minLength; r++)
             {
-                for (int s = 0; s <= min - r; s++)
+                for (int s = 0; s <= minLength - r; s++)
                 {
-                    λ = (m * costFunction.DeletionCost + n * costFunction.InsertionCost + (costFunction.MatchCost + costFunction.InsertionCost + costFunction.DeletionCost) * r + (costFunction.NonMatchCost - costFunction.InsertionCost - costFunction.DeletionCost) * s) / (m + n - r - s);
-                    Q.Add(λ);
+                    lambda = (m * costFunction.DeletionCost + n * costFunction.InsertionCost + (costFunction.MatchCost - costFunction.InsertionCost - costFunction.DeletionCost) * r + (costFunction.NonMatchCost - costFunction.InsertionCost - costFunction.DeletionCost) * s) / (m + n - r - s);
+                    Q.Add(lambda);
                 }
             }
 

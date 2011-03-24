@@ -27,11 +27,28 @@ namespace DedupeNET.Core
         public override double GetCost(char a, char b)
         {
             int index = costMatrix.IndexOf(new EditOperation(a, b));
-            double cost;
 
             if (index != -1)
             {
-                 cost = costMatrix.ElementAt(index).Cost;
+                if (a != (char)CharEnum.Empty && b != (char)CharEnum.Empty)
+                {
+                    if (a == b)
+                    {
+                        return costMatrix.ElementAt(index).Cost + MatchOffset;
+                    }
+                    else
+                    {
+                        return costMatrix.ElementAt(index).Cost + NonMatchOffset;
+                    }
+                }
+                else if (a != (char)CharEnum.Empty && b == (char)CharEnum.Empty)
+                {
+                    return costMatrix.ElementAt(index).Cost + DeletionOffset;
+                }
+                else
+                {
+                    return costMatrix.ElementAt(index).Cost + InsertionOffset;
+                }
             }
             else
             {
@@ -39,24 +56,22 @@ namespace DedupeNET.Core
                 {
                     if (a == b)
                     {
-                        cost = defaultMatchCost;
+                        return defaultMatchCost + MatchOffset;
                     }
                     else
                     {
-                        cost = defaultNonMatchCost;
+                        return defaultNonMatchCost + NonMatchOffset;
                     }
                 }
                 else if (a != (char)CharEnum.Empty && b == (char)CharEnum.Empty)
                 {
-                    cost = defaultDeletionCost;
+                    return defaultDeletionCost + DeletionOffset;
                 }
                 else
                 {
-                    cost = defaultInsertionCost;
+                    return defaultInsertionCost + InsertionOffset;
                 }
             }
-
-            return cost + Offset;
         }
     }
 }
