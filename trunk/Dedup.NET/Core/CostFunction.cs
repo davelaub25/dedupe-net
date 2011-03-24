@@ -7,7 +7,10 @@ namespace DedupeNET.Core
 {
     public abstract class CostFunction
     {
-        public double Offset { get; set; }
+        public double MatchOffset { get; set; }
+        public double NonMatchOffset { get; set; }
+        public double DeletionOffset { get; set; }
+        public double InsertionOffset { get; set; }
 
         public abstract double GetCost(char a, char b);
     }

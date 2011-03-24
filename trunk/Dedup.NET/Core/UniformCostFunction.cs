@@ -48,19 +48,19 @@ namespace DedupeNET.Core
         {
             if (a != (char)CharEnum.Empty && b == (char)CharEnum.Empty)
             {
-                return deletionCost + Offset;
+                return deletionCost + DeletionOffset;
             }
             else if (a == (char)CharEnum.Empty && b != (char)CharEnum.Empty)
             {
-                return insertionCost + Offset;
+                return insertionCost + InsertionOffset;
             }
             else if(char.ToLower(a) == char.ToLower(b))
             {
-                return matchCost + Offset;
+                return matchCost + MatchOffset;
             }
             else
             {
-                return nonMatchCost + Offset;
+                return nonMatchCost + NonMatchOffset;
             }
         }       
     }

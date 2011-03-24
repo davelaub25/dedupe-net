@@ -6,9 +6,9 @@ using DedupeNET.Enum;
 
 namespace DedupeNET.Core
 {
-    public class EditPath
+    public class Alignment
     {
-        public List<EditOperation> editPath;
+        private List<EditOperation> alignment;
 
         private int matches;
         public int Matches
@@ -51,30 +51,30 @@ namespace DedupeNET.Core
         {
             get
             {
-                return editPath.Count;
+                return alignment.Count;
             }
         }
         
-        public EditPath()
+        public Alignment()
         {
-            editPath = new List<EditOperation>();
+            alignment = new List<EditOperation>();
         }
 
         public void Append(EditOperation operation)
         {
-            editPath.Add(operation);
+            alignment.Add(operation);
             IncreaseCounters(operation);
         }
 
         public void Prepend(EditOperation operation)
         {
-            editPath.Insert(0, operation);
+            alignment.Insert(0, operation);
             IncreaseCounters(operation);
         }
 
         public void Insert(int index, EditOperation operation)
         {
-            editPath.Insert(index, operation);
+            alignment.Insert(index, operation);
             IncreaseCounters(operation);
         }
 
