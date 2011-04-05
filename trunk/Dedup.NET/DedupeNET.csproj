@@ -41,6 +41,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\CostFunction.cs" />
+    <Compile Include="Core\TokenIDFCostFunction.cs" />
+    <Compile Include="Core\TokenOperation.cs" />
+    <Compile Include="StringFunctions\TokenEditDistance.cs" />
     <Compile Include="Core\VariableCostFunction.cs" />
     <Compile Include="Core\EditOperation.cs" />
     <Compile Include="Core\UniformCostFunction.cs" />
@@ -51,7 +54,10 @@
     <Compile Include="Enum\CharEnum.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringFunctions\EditDistance.cs" />
+    <Compile Include="TupleFunctions\MinimunCostTransformationSequence.cs" />
     <Compile Include="Utils\DeduplicationMath.cs" />
+    <Compile Include="Utils\MinHash.cs" />
+    <Compile Include="Utils\Tokenizer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

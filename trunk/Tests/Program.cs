@@ -5,6 +5,7 @@ using System.Text;
 using DedupeNET.StringFunctions;
 using DedupeNET.Enum;
 using DedupeNET.Core;
+using DedupeNET.Utils;
 
 namespace Tests
 {
@@ -12,17 +13,12 @@ namespace Tests
     {
         static void Main(string[] args)
         {
-            UniformCostFunction ucf = new UniformCostFunction(0, 5, 9, 7);
-            EditDistance ed = new EditDistance("aba", "bab");
+            HashSet<string> set1 = Tokenizer.QGrams(2, "asdf");
+            HashSet<string> set2 = Tokenizer.QGrams(2, "holaa");
 
-            Console.WriteLine(ed.NormalizedDistance(ucf));
-            Console.WriteLine(ed.EditPath.Length);
+            MinHash mh = new MinHash(set1.Union(set2).Count(), 3);
 
-            /*foreach (EditOperation item in ed.EditPath.editPath)
-            {
-                Console.WriteLine("(" + item.A + ", " + item.B + ")");
-            }*/
-
+            Console.WriteLine(mh.Similarity<string>(set1, set2));
             Console.ReadLine();
         }
     }

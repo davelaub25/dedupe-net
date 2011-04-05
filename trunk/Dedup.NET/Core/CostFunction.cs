@@ -13,5 +13,6 @@ namespace DedupeNET.Core
         public double InsertionOffset { get; set; }
 
         public abstract double GetCost(char a, char b);
+        public abstract double GetCost(string a, string b);
     }
 }

@@ -7,13 +7,23 @@ namespace DedupeNET.Core
 {
     public abstract class MeasurementFunction
     {
-        public string FirstString { get; set; }
-        public string SecondString { get; set; }
+        private T _firstEntity;
+        public T FirstEntity
+        { 
+            get
+            {
+ 
+            } 
+        }
 
-        public MeasurementFunction(string firstString, string secondString)
+        private T _secondEntity;
+        
+        public T SecondEntity { get; set; }
+
+        public MeasurementFunction(T firstEntity, T secondEntity)
         {
-            FirstString = firstString;
-            SecondString = secondString;
+            FirstEntity = firstString;
+            SecondEntity = secondString;
         }
     }
 }
