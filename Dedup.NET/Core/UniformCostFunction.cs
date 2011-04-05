@@ -62,6 +62,11 @@ namespace DedupeNET.Core
             {
                 return nonMatchCost + NonMatchOffset;
             }
-        }       
+        }
+
+        public override double GetCost(string a, string b)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

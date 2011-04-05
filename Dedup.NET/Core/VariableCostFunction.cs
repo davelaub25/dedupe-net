@@ -73,5 +73,10 @@ namespace DedupeNET.Core
                 }
             }
         }
+
+        public override double GetCost(string a, string b)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
