@@ -7,7 +7,7 @@ using DedupeNET.Utils;
 
 namespace DedupeNET.StringFunctions
 {
-    public class TokenEditDistance : DistanceFunction
+    public class TokenEditDistance : DistanceFunction<string>
     {
         private List<string> tokFirstString;
         private List<string> tokSecondString;
@@ -19,7 +19,7 @@ namespace DedupeNET.StringFunctions
         {
             string[] separators = new string[] { " ", ".", "," };
             tokFirstString = Tokenizer.Tokens(firstString, separators);
-            tokSecondString = Tokenizer.Tokens(firstString, separators);
+            tokSecondString = Tokenizer.Tokens(secondString, separators);
         }
 
         public TokenEditDistance(string firstString, string secondString, string[] separators)
@@ -27,6 +27,11 @@ namespace DedupeNET.StringFunctions
         {
             tokFirstString = Tokenizer.Tokens(firstString, separators);
             tokSecondString = Tokenizer.Tokens(firstString, separators);
+        }
+
+        public override double Distance()
+        {
+            return Distance(new TokenIDFCostFunction(1));
         }
 
         public double Distance(TokenIDFCostFunction costFunction)
@@ -37,21 +42,21 @@ namespace DedupeNET.StringFunctions
 
             for (int i = 1; i <= tokFirstString.Count; i++)
             {
-                editMatrix[i, 0] = editMatrix[i - 1, 0] + costFunction.GetCost(tokFirstString[i-1], string.Empty);
+                editMatrix[i, 0] = editMatrix[i - 1, 0] + costFunction.GetCost(tokFirstString[i - 1], string.Empty);
             }
 
-            for (int j = 1; j <= SecondEntity.Length; j++)
+            for (int j = 1; j <= tokSecondString.Count; j++)
             {
-                editMatrix[0, j] = editMatrix[0, j - 1] + costFunction.GetCost(string.Empty, tokSecondString[j-1]);
+                editMatrix[0, j] = editMatrix[0, j - 1] + costFunction.GetCost(string.Empty, tokSecondString[j - 1]);
             }
 
             double m1, m2, m3;
 
-            for (int i = 1; i <= FirstEntity.Length; i++)
+            for (int i = 1; i <= tokFirstString.Count; i++)
             {
-                for (int j = 1; j <= SecondEntity.Length; j++)
+                for (int j = 1; j <= tokSecondString.Count; j++)
                 {
-                    m1 = editMatrix[i - 1, j - 1] + costFunction.GetCost(tokFirstString[i-1], tokSecondString[j-1]);
+                    m1 = editMatrix[i - 1, j - 1] + costFunction.GetCost(tokFirstString[i - 1], tokSecondString[j - 1]);
                     m2 = editMatrix[i - 1, j] + costFunction.GetCost(tokFirstString[i - 1], string.Empty);
                     m3 = editMatrix[i, j - 1] + costFunction.GetCost(string.Empty, tokSecondString[j - 1]);
 
@@ -100,11 +105,6 @@ namespace DedupeNET.StringFunctions
                 EditPath.Prepend(new EditOperation((char)CharEnum.Empty, SecondString[j - 1]));
                 j--;
             }*/
-        }
-
-        public override double Distance()
-        {
-            throw new NotImplementedException();
         }
     }
 }

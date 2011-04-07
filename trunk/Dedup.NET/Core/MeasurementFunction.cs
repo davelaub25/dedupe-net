@@ -5,25 +5,24 @@ using System.Text;
 
 namespace DedupeNET.Core
 {
-    public abstract class MeasurementFunction
+    public abstract class MeasurementFunction<T>
     {
-        private T _firstEntity;
         public T FirstEntity
-        { 
-            get
-            {
- 
-            } 
+        {
+            get;
+            set;
         }
 
-        private T _secondEntity;
-        
-        public T SecondEntity { get; set; }
+        public T SecondEntity
+        {
+            get;
+            set;
+        }
 
         public MeasurementFunction(T firstEntity, T secondEntity)
         {
-            FirstEntity = firstString;
-            SecondEntity = secondString;
+            FirstEntity = firstEntity;
+            SecondEntity = secondEntity;
         }
     }
 }

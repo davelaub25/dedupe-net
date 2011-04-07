@@ -8,7 +8,7 @@ using DedupeNET.Enum;
 
 namespace DedupeNET.StringFunctions
 {
-    public class EditDistance : DistanceFunction
+    public class EditDistance : DistanceFunction<string>
     {
         private double[,] editMatrix;
 
