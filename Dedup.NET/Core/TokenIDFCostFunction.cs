@@ -3,45 +3,50 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using DedupeNET.StringFunctions;
+using DedupeNET.Providers;
 
 namespace DedupeNET.Core
 {
-    public class TokenIDFCostFunction:CostFunction
+    public class TokenIDFCostFunction : CostFunction
     {
         public double InsertionFactor
         {
             get;
-            set
-            {
-                if (value < 0 || value > 1)
-                {
-                    throw new ArgumentException();
-                }
-            }
+            set;
         }
-        
+
+        public TokenIDFCostFunction(double insertionFactor)
+        {
+            InsertionFactor = insertionFactor;
+        }
+
         public override double GetCost(char a, char b)
         {
             throw new NotImplementedException();
         }
 
-        public override double GetCost(string A, string B, int indexA, int indexB)
+        public override double GetCost(string tokenA, string tokenB)
         {
-            if (indexA != indexB)
+            if (tokenA != string.Empty && tokenB != string.Empty)
             {
-                return double.PositiveInfinity;
+                var editDistance = new EditDistance(tokenA, tokenB).Distance();
+                
+                if (editDistance == 1)
+                {
+                    return editDistance * IDFProvider.Frequency(tokenA, 0) + MatchOffset;
+                }
+                else
+                {
+                    return editDistance * IDFProvider.Frequency(tokenA, 0) + NonMatchOffset;
+                }
             }
-            else if(A!=string.Empty&&B!=string.Empty)
+            else if (tokenA == string.Empty)
             {
-                return new EditDistance(A, B).Distance();
-            }
-            else if (A == string.Empty)
-            {
-                return InsertionFactor + InsertionOffset;
+                return InsertionFactor * IDFProvider.Frequency(tokenB, 0) + InsertionOffset;
             }
             else
             {
-                return 1;
+                return IDFProvider.Frequency(tokenA, 0) + DeletionOffset;
             }
         }
     }

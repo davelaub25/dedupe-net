@@ -5,10 +5,10 @@ using System.Text;
 
 namespace DedupeNET.Core
 {
-    public abstract class SimilarityFunction : MeasurementFunction
+    public abstract class SimilarityFunction<T> : MeasurementFunction<T>
     {
-        public SimilarityFunction(string firstString, string secondString)
-            : base(firstString, secondString)
+        public SimilarityFunction(T firstEntity, T secondEntity)
+            : base(firstEntity, secondEntity)
         {
 
         }

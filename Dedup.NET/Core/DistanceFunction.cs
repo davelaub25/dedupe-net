@@ -5,10 +5,10 @@ using System.Text;
 
 namespace DedupeNET.Core
 {
-    public abstract class DistanceFunction : MeasurementFunction
+    public abstract class DistanceFunction<T> : MeasurementFunction<T>
     {
-        public DistanceFunction(string firstString, string secondString)
-            : base(firstString, secondString)
+        public DistanceFunction(T firstEntity, T secondEntity)
+            : base(firstEntity, secondEntity)
         {
         }
 

@@ -6,6 +6,7 @@ using DedupeNET.StringFunctions;
 using DedupeNET.Enum;
 using DedupeNET.Core;
 using DedupeNET.Utils;
+using DedupeNET.TupleFunctions;
 
 namespace Tests
 {
@@ -13,12 +14,10 @@ namespace Tests
     {
         static void Main(string[] args)
         {
-            HashSet<string> set1 = Tokenizer.QGrams(2, "asdf");
-            HashSet<string> set2 = Tokenizer.QGrams(2, "holaa");
+            FuzzyMatch fm = new FuzzyMatch(null, null);
+            fm.TokenSet();
 
-            MinHash mh = new MinHash(set1.Union(set2).Count(), 3);
-
-            Console.WriteLine(mh.Similarity<string>(set1, set2));
+            //Console.WriteLine(ted.Distance());
             Console.ReadLine();
         }
     }
