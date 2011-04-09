@@ -3,28 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DedupeNET", "Dedup.NET\DedupeNET.csproj", "{D2990F6B-ED8C-48E3-B1A8-0945BC97B33F}"
 EndProject
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Deduplicator.UI", "Deduplicator.UI\", "{5C76D790-8BB2-42F9-9AD7-826EFBC62518}"
-	ProjectSection(WebsiteProperties) = preProject
-		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
-		ProjectReferences = "{D2990F6B-ED8C-48E3-B1A8-0945BC97B33F}|Dedup.NET.dll;"
-		Debug.AspNetCompiler.VirtualPath = "/Deduplicator.UI"
-		Debug.AspNetCompiler.PhysicalPath = "Deduplicator.UI\"
-		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\Deduplicator.UI\"
-		Debug.AspNetCompiler.Updateable = "true"
-		Debug.AspNetCompiler.ForceOverwrite = "true"
-		Debug.AspNetCompiler.FixedNames = "false"
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.VirtualPath = "/Deduplicator.UI"
-		Release.AspNetCompiler.PhysicalPath = "Deduplicator.UI\"
-		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\Deduplicator.UI\"
-		Release.AspNetCompiler.Updateable = "true"
-		Release.AspNetCompiler.ForceOverwrite = "true"
-		Release.AspNetCompiler.FixedNames = "false"
-		Release.AspNetCompiler.Debug = "False"
-		VWDPort = "3647"
-		DefaultWebSiteLanguage = "Visual C#"
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{3339C031-0F9F-4CF9-8A6A-58CB242260F4}"
 EndProject
 Global
@@ -47,16 +25,6 @@ Global
 		{D2990F6B-ED8C-48E3-B1A8-0945BC97B33F}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{D2990F6B-ED8C-48E3-B1A8-0945BC97B33F}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{D2990F6B-ED8C-48E3-B1A8-0945BC97B33F}.Release|x86.ActiveCfg = Release|Any CPU
-		{5C76D790-8BB2-42F9-9AD7-826EFBC62518}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5C76D790-8BB2-42F9-9AD7-826EFBC62518}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5C76D790-8BB2-42F9-9AD7-826EFBC62518}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{5C76D790-8BB2-42F9-9AD7-826EFBC62518}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{5C76D790-8BB2-42F9-9AD7-826EFBC62518}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{5C76D790-8BB2-42F9-9AD7-826EFBC62518}.Release|Any CPU.ActiveCfg = Debug|Any CPU
-		{5C76D790-8BB2-42F9-9AD7-826EFBC62518}.Release|Any CPU.Build.0 = Debug|Any CPU
-		{5C76D790-8BB2-42F9-9AD7-826EFBC62518}.Release|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{5C76D790-8BB2-42F9-9AD7-826EFBC62518}.Release|Mixed Platforms.Build.0 = Debug|Any CPU
-		{5C76D790-8BB2-42F9-9AD7-826EFBC62518}.Release|x86.ActiveCfg = Debug|Any CPU
 		{3339C031-0F9F-4CF9-8A6A-58CB242260F4}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{3339C031-0F9F-4CF9-8A6A-58CB242260F4}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
 		{3339C031-0F9F-4CF9-8A6A-58CB242260F4}.Debug|Mixed Platforms.Build.0 = Debug|x86

@@ -7,8 +7,8 @@ namespace DedupeNET.Core
 {
     public abstract class DistanceFunction<T> : MeasurementFunction<T>
     {
-        public DistanceFunction(T firstEntity, T secondEntity)
-            : base(firstEntity, secondEntity)
+        public DistanceFunction(T inputEntity, T referenceEntity)
+            : base(inputEntity, referenceEntity)
         {
         }
 

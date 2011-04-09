@@ -7,6 +7,7 @@ using DedupeNET.Utils;
 using System.Configuration;
 using System;
 using DedupeNET.Configuration;
+using DedupeNET.Providers;
 
 namespace DedupeNET.TupleFunctions
 {
@@ -19,32 +20,42 @@ namespace DedupeNET.TupleFunctions
 
         public override double Similarity()
         {
-            throw new NotImplementedException();
+            IEnumerable<string> inputTokenSet = InputTokenSet();
+
+            double minimumTotalCost = MinimumCostTransformationSequence();
+            double weightsTotalCost = 0;
+
+            foreach (string token in inputTokenSet)
+            {
+                weightsTotalCost += IDFProvider.IDF(token, 1);
+            }
+
+            return 1 - Math.Min(minimumTotalCost / weightsTotalCost, 1);
         }
 
-        public double MinimumCostTransformationSequence()
+        private double MinimumCostTransformationSequence()
         {
             double result=0;
             TokenEditDistance ted;
 
-            foreach (DataColumn colum in FirstEntity.Table.Columns)
+            foreach (DataColumn colum in InputEntity.Table.Columns)
             {
-                ted = new TokenEditDistance(FirstEntity[colum].ToString(), SecondEntity[colum].ToString());
+                ted = new TokenEditDistance(InputEntity[colum].ToString(), ReferenceEntity[colum].ToString());
                 result += ted.Distance();
             }
 
             return result;
         }
 
-        public List<string> TokenSet()
+        private IEnumerable<string> InputTokenSet()
         {
-            List<string> result = new List<string>();
-            string separators = GeneralSettings.Settings.TokenSeparators;
+            IEnumerable<string> result = new List<string>();
+            char[] separators = GeneralSettings.Settings.TokenSeparators.ToCharArray();
 
-            /*foreach (DataColumn colum in FirstEntity.Table.Columns)
+            foreach (DataColumn colum in InputEntity.Table.Columns)
             {
-                //result = result.Union(Tokenizer.Tokens(FirstEntity[colum].ToString(), ""));
-            }*/
+                result = result.Union(Tokenizer.Tokens(InputEntity[colum].ToString(), separators));
+            }
 
             return result;
         }
