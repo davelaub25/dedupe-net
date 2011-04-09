@@ -41,7 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Configuration\GeneralSection.cs" />
+    <Compile Include="Configuration\GeneralSettings.cs" />
     <Compile Include="Core\CostFunction.cs" />
     <Compile Include="Core\TokenIDFCostFunction.cs" />
     <Compile Include="Core\TokenOperation.cs" />

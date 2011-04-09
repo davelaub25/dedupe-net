@@ -6,6 +6,7 @@ using DedupeNET.StringFunctions;
 using DedupeNET.Utils;
 using System.Configuration;
 using System;
+using DedupeNET.Configuration;
 
 namespace DedupeNET.TupleFunctions
 {
@@ -38,7 +39,7 @@ namespace DedupeNET.TupleFunctions
         public List<string> TokenSet()
         {
             List<string> result = new List<string>();
-            string separators = (string)ConfigurationManager.GetSection("general");
+            string separators = GeneralSettings.Settings.TokenSeparators;
 
             /*foreach (DataColumn colum in FirstEntity.Table.Columns)
             {
