@@ -6,9 +6,20 @@ using System.Configuration;
 
 namespace DedupeNET.Configuration
 {
-    public class GeneralSection : ConfigurationSection
+    public class GeneralSettings : ConfigurationSection
     {
-        [ConfigurationProperty("tokenSeparators", DefaultValue = " .,;", IsRequired = true)]
+        private static GeneralSettings settings =
+            ConfigurationManager.GetSection("GeneralSettings") as GeneralSettings;
+
+        public static GeneralSettings Settings
+        {
+            get
+            {
+                return settings;
+            } 
+        }
+
+        [ConfigurationProperty("tokenSeparators", DefaultValue = "", IsRequired = true)]
         public string TokenSeparators
         {
             get
