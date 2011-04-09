@@ -8,15 +8,14 @@ namespace DedupeNET.Configuration
 {
     public class GeneralSettings : ConfigurationSection
     {
-        private static GeneralSettings settings =
+        private static GeneralSettings _settings =
             ConfigurationManager.GetSection("GeneralSettings") as GeneralSettings;
+
+        private GeneralSettings() { }
 
         public static GeneralSettings Settings
         {
-            get
-            {
-                return settings;
-            } 
+            get { return _settings; }
         }
 
         [ConfigurationProperty("tokenSeparators", DefaultValue = "", IsRequired = true)]

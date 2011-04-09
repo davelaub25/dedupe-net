@@ -10,51 +10,36 @@ namespace DedupeNET.Core
     {
         private List<EditOperation> alignment;
 
-        private int matches;
+        private int _matches;
         public int Matches
         {
-            get
-            {
-                return matches;
-            }
+            get { return _matches; }
         }
 
-        private int nonMatches;
+        private int _nonMatches;
         public int NonMatches
         {
-            get
-            {
-                return nonMatches;
-            }
-        }
-        
-        private int insertions;
-        public int Insertions
-        {
-            get
-            {
-                return insertions;
-            }
+            get { return _nonMatches; }
         }
 
-        private int deletions;
+        private int _insertions;
+        public int Insertions
+        {
+            get { return _insertions; }
+        }
+
+        private int _deletions;
         public int Deletions
         {
-            get
-            {
-                return deletions;
-            }
-        } 
+            get { return _deletions; }
+        }
 
 
         public int Length
         {
-            get
-            {
-                return alignment.Count;
-            }
+            get { return alignment.Count; }
         }
-        
+
         public Alignment()
         {
             alignment = new List<EditOperation>();
@@ -82,19 +67,19 @@ namespace DedupeNET.Core
         {
             if (operation.A == (char)CharEnum.Empty)
             {
-                deletions++;
+                _deletions++;
             }
             else if (operation.B == (char)CharEnum.Empty)
             {
-                insertions++;
+                _insertions++;
             }
             else if (operation.A == operation.B)
             {
-                matches++;
+                _matches++;
             }
             else
             {
-                nonMatches++;
+                _nonMatches++;
             }
         }
     }

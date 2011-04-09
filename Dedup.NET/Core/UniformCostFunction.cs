@@ -8,59 +8,59 @@ namespace DedupeNET.Core
 {
     public class UniformCostFunction : CostFunction
     {
-        private double matchCost;
+        private double _matchCost;
         public double MatchCost
         {
-            get { return matchCost; }
-            set { matchCost = value; }
+            get { return _matchCost; }
+            set { _matchCost = value; }
         }
 
-        private double nonMatchCost;
+        private double _nonMatchCost;
         public double NonMatchCost
         {
-            get { return nonMatchCost; }
-            set { nonMatchCost = value; }
+            get { return _nonMatchCost; }
+            set { _nonMatchCost = value; }
         }
 
-        private double insertionCost;
+        private double _insertionCost;
         public double InsertionCost
         {
-            get { return insertionCost; }
-            set { insertionCost = value; }
+            get { return _insertionCost; }
+            set { _insertionCost = value; }
         }
 
-        private double deletionCost;
+        private double _deletionCost;
         public double DeletionCost
         {
-            get { return deletionCost; }
-            set { deletionCost = value; }
+            get { return _deletionCost; }
+            set { _deletionCost = value; }
         }
 
         public UniformCostFunction(double matchCost, double nonMatchCost, double insertionCost, double deletionCost)
         {
-            this.matchCost = matchCost;
-            this.nonMatchCost = nonMatchCost;
-            this.insertionCost = insertionCost;
-            this.deletionCost = deletionCost;
+            _matchCost = matchCost;
+            _nonMatchCost = nonMatchCost;
+            _insertionCost = insertionCost;
+            _deletionCost = deletionCost;
         }
 
         public override double GetCost(char a, char b)
         {
             if (a != (char)CharEnum.Empty && b == (char)CharEnum.Empty)
             {
-                return deletionCost + DeletionOffset;
+                return _deletionCost + DeletionOffset;
             }
             else if (a == (char)CharEnum.Empty && b != (char)CharEnum.Empty)
             {
-                return insertionCost + InsertionOffset;
+                return _insertionCost + InsertionOffset;
             }
             else if(char.ToLower(a) == char.ToLower(b))
             {
-                return matchCost + MatchOffset;
+                return _matchCost + MatchOffset;
             }
             else
             {
-                return nonMatchCost + NonMatchOffset;
+                return _nonMatchCost + NonMatchOffset;
             }
         }
 
