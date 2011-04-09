@@ -25,7 +25,7 @@ namespace DedupeNET.Utils
             return qGrams;
         }
 
-        public static List<string> Tokens(string text, string[] separators)
+        public static List<string> Tokens(string text, char[] separators)
         {
             return text.Split(separators, StringSplitOptions.RemoveEmptyEntries).ToList();
         }

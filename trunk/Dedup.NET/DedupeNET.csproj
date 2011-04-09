@@ -58,12 +58,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringFunctions\EditDistance.cs" />
     <Compile Include="TupleFunctions\FuzzyMatch.cs" />
+    <Compile Include="TupleFunctions\FuzzyMatchApproximate.cs" />
     <Compile Include="Utils\DeduplicationMath.cs" />
     <Compile Include="Utils\MinHash.cs" />
     <Compile Include="Utils\Tokenizer.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

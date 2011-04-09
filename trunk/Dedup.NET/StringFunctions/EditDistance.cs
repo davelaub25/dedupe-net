@@ -21,8 +21,8 @@ namespace DedupeNET.StringFunctions
             }
         }
 
-        public EditDistance(string firstString, string secondString)
-            : base(firstString, secondString)
+        public EditDistance(string inputString, string referenceString)
+            : base(inputString, referenceString)
         {
 
         }
@@ -34,30 +34,30 @@ namespace DedupeNET.StringFunctions
 
         public double Distance(CostFunction costFunction)
         {
-            editMatrix = new double[FirstEntity.Length + 1, SecondEntity.Length + 1];
+            editMatrix = new double[InputEntity.Length + 1, ReferenceEntity.Length + 1];
             editPath = new Alignment();
 
             editMatrix[0, 0] = 0;
 
-            for (int i = 1; i <= FirstEntity.Length; i++)
+            for (int i = 1; i <= InputEntity.Length; i++)
             {
-                editMatrix[i, 0] = editMatrix[i - 1, 0] + costFunction.GetCost(FirstEntity[i - 1], (char)CharEnum.Empty);
+                editMatrix[i, 0] = editMatrix[i - 1, 0] + costFunction.GetCost(InputEntity[i - 1], (char)CharEnum.Empty);
             }
 
-            for (int j = 1; j <= SecondEntity.Length; j++)
+            for (int j = 1; j <= ReferenceEntity.Length; j++)
             {
-                editMatrix[0, j] = editMatrix[0, j - 1] + costFunction.GetCost((char)CharEnum.Empty, SecondEntity[j - 1]);
+                editMatrix[0, j] = editMatrix[0, j - 1] + costFunction.GetCost((char)CharEnum.Empty, ReferenceEntity[j - 1]);
             }
 
             double m1, m2, m3;
 
-            for (int i = 1; i <= FirstEntity.Length; i++)
+            for (int i = 1; i <= InputEntity.Length; i++)
             {
-                for (int j = 1; j <= SecondEntity.Length; j++)
+                for (int j = 1; j <= ReferenceEntity.Length; j++)
                 {
-                    m1 = editMatrix[i - 1, j - 1] + costFunction.GetCost(FirstEntity[i - 1], SecondEntity[j - 1]);
-                    m2 = editMatrix[i - 1, j] + costFunction.GetCost(FirstEntity[i - 1], (char)CharEnum.Empty);
-                    m3 = editMatrix[i, j - 1] + costFunction.GetCost((char)CharEnum.Empty, SecondEntity[j - 1]);
+                    m1 = editMatrix[i - 1, j - 1] + costFunction.GetCost(InputEntity[i - 1], ReferenceEntity[j - 1]);
+                    m2 = editMatrix[i - 1, j] + costFunction.GetCost(InputEntity[i - 1], (char)CharEnum.Empty);
+                    m3 = editMatrix[i, j - 1] + costFunction.GetCost((char)CharEnum.Empty, ReferenceEntity[j - 1]);
 
                     editMatrix[i, j] = DeduplicationMath.Min(m1, m2, m3);
                 }
@@ -65,7 +65,7 @@ namespace DedupeNET.StringFunctions
 
             BuildEditPath(costFunction);
 
-            return editMatrix[FirstEntity.Length, SecondEntity.Length];
+            return editMatrix[InputEntity.Length, ReferenceEntity.Length];
         }
 
         public double NormalizedDistance(UniformCostFunction costFunction)
@@ -78,7 +78,7 @@ namespace DedupeNET.StringFunctions
                 costFunction.MatchOffset = lambdaMed;
                 costFunction.NonMatchOffset = lambdaMed;
 
-                double solution = Distance(costFunction) - lambdaMed * (FirstEntity.Length + SecondEntity.Length);
+                double solution = Distance(costFunction) - lambdaMed * (InputEntity.Length + ReferenceEntity.Length);
 
                 if (solution == 0)
                 {
@@ -97,38 +97,38 @@ namespace DedupeNET.StringFunctions
 
         private void BuildEditPath(CostFunction costFunction)
         {
-            int i = FirstEntity.Length;
-            int j = SecondEntity.Length;
+            int i = InputEntity.Length;
+            int j = ReferenceEntity.Length;
 
             while (i != 0 && j != 0)
             {
-                if (editMatrix[i, j] == editMatrix[i - 1, j - 1] + costFunction.GetCost(FirstEntity[i - 1], SecondEntity[j - 1]))
+                if (editMatrix[i, j] == editMatrix[i - 1, j - 1] + costFunction.GetCost(InputEntity[i - 1], ReferenceEntity[j - 1]))
                 {
-                    EditPath.Prepend(new EditOperation(FirstEntity[i - 1], SecondEntity[j - 1]));
+                    EditPath.Prepend(new EditOperation(InputEntity[i - 1], ReferenceEntity[j - 1]));
                     i--;
                     j--;
                 }
-                else if (editMatrix[i, j] == editMatrix[i - 1, j] + costFunction.GetCost(FirstEntity[i - 1], (char)CharEnum.Empty))
+                else if (editMatrix[i, j] == editMatrix[i - 1, j] + costFunction.GetCost(InputEntity[i - 1], (char)CharEnum.Empty))
                 {
-                    EditPath.Prepend(new EditOperation(FirstEntity[i - 1], (char)CharEnum.Empty));
+                    EditPath.Prepend(new EditOperation(InputEntity[i - 1], (char)CharEnum.Empty));
                     i--;
                 }
                 else
                 {
-                    EditPath.Prepend(new EditOperation((char)CharEnum.Empty, SecondEntity[j - 1]));
+                    EditPath.Prepend(new EditOperation((char)CharEnum.Empty, ReferenceEntity[j - 1]));
                     j--;
                 }
             }
 
             while (i != 0)
             {
-                EditPath.Prepend(new EditOperation(FirstEntity[i - 1], (char)CharEnum.Empty));
+                EditPath.Prepend(new EditOperation(InputEntity[i - 1], (char)CharEnum.Empty));
                 i--;
             }
 
             while (j != 0)
             {
-                EditPath.Prepend(new EditOperation((char)CharEnum.Empty, SecondEntity[j - 1]));
+                EditPath.Prepend(new EditOperation((char)CharEnum.Empty, ReferenceEntity[j - 1]));
                 j--;
             }
         }
@@ -137,8 +137,8 @@ namespace DedupeNET.StringFunctions
         {
             List<double> Q = new List<double>();
 
-            int m = FirstEntity.Length;
-            int n = SecondEntity.Length;
+            int m = InputEntity.Length;
+            int n = ReferenceEntity.Length;
             int minLength = Math.Min(m, n);
             double lambda = 0;
 

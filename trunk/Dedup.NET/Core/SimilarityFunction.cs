@@ -7,8 +7,8 @@ namespace DedupeNET.Core
 {
     public abstract class SimilarityFunction<T> : MeasurementFunction<T>
     {
-        public SimilarityFunction(T firstEntity, T secondEntity)
-            : base(firstEntity, secondEntity)
+        public SimilarityFunction(T inputEntity, T referenceEntity)
+            : base(inputEntity, referenceEntity)
         {
 
         }

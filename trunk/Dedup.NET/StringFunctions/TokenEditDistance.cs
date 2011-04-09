@@ -4,29 +4,30 @@ using System.Linq;
 using System.Text;
 using DedupeNET.Core;
 using DedupeNET.Utils;
+using DedupeNET.Configuration;
 
 namespace DedupeNET.StringFunctions
 {
     public class TokenEditDistance : DistanceFunction<string>
     {
-        private List<string> tokFirstString;
-        private List<string> tokSecondString;
+        private List<string> tokInputString;
+        private List<string> tokReferenceString;
 
         private double[,] editMatrix;
 
-        public TokenEditDistance(string firstString, string secondString)
-            : base(firstString, secondString)
+        public TokenEditDistance(string inputString, string referenceString)
+            : base(inputString, referenceString)
         {
-            string[] separators = new string[] { " ", ".", "," };
-            tokFirstString = Tokenizer.Tokens(firstString, separators);
-            tokSecondString = Tokenizer.Tokens(secondString, separators);
+            char[] separators = GeneralSettings.Settings.TokenSeparators.ToCharArray();
+            tokInputString = Tokenizer.Tokens(inputString, separators);
+            tokReferenceString = Tokenizer.Tokens(referenceString, separators);
         }
 
-        public TokenEditDistance(string firstString, string secondString, string[] separators)
-            : base(firstString, secondString)
+        public TokenEditDistance(string inputString, string referenceString, char[] separators)
+            : base(inputString, referenceString)
         {
-            tokFirstString = Tokenizer.Tokens(firstString, separators);
-            tokSecondString = Tokenizer.Tokens(firstString, separators);
+            tokInputString = Tokenizer.Tokens(inputString, separators);
+            tokReferenceString = Tokenizer.Tokens(inputString, separators);
         }
 
         public override double Distance()
@@ -36,29 +37,29 @@ namespace DedupeNET.StringFunctions
 
         public double Distance(TokenIDFCostFunction costFunction)
         {
-            editMatrix = new double[tokFirstString.Count + 1, tokSecondString.Count + 1];
+            editMatrix = new double[tokInputString.Count + 1, tokReferenceString.Count + 1];
 
             editMatrix[0, 0] = 0;
 
-            for (int i = 1; i <= tokFirstString.Count; i++)
+            for (int i = 1; i <= tokInputString.Count; i++)
             {
-                editMatrix[i, 0] = editMatrix[i - 1, 0] + costFunction.GetCost(tokFirstString[i - 1], string.Empty);
+                editMatrix[i, 0] = editMatrix[i - 1, 0] + costFunction.GetCost(tokInputString[i - 1], string.Empty);
             }
 
-            for (int j = 1; j <= tokSecondString.Count; j++)
+            for (int j = 1; j <= tokReferenceString.Count; j++)
             {
-                editMatrix[0, j] = editMatrix[0, j - 1] + costFunction.GetCost(string.Empty, tokSecondString[j - 1]);
+                editMatrix[0, j] = editMatrix[0, j - 1] + costFunction.GetCost(string.Empty, tokReferenceString[j - 1]);
             }
 
             double m1, m2, m3;
 
-            for (int i = 1; i <= tokFirstString.Count; i++)
+            for (int i = 1; i <= tokInputString.Count; i++)
             {
-                for (int j = 1; j <= tokSecondString.Count; j++)
+                for (int j = 1; j <= tokReferenceString.Count; j++)
                 {
-                    m1 = editMatrix[i - 1, j - 1] + costFunction.GetCost(tokFirstString[i - 1], tokSecondString[j - 1]);
-                    m2 = editMatrix[i - 1, j] + costFunction.GetCost(tokFirstString[i - 1], string.Empty);
-                    m3 = editMatrix[i, j - 1] + costFunction.GetCost(string.Empty, tokSecondString[j - 1]);
+                    m1 = editMatrix[i - 1, j - 1] + costFunction.GetCost(tokInputString[i - 1], tokReferenceString[j - 1]);
+                    m2 = editMatrix[i - 1, j] + costFunction.GetCost(tokInputString[i - 1], string.Empty);
+                    m3 = editMatrix[i, j - 1] + costFunction.GetCost(string.Empty, tokReferenceString[j - 1]);
 
                     editMatrix[i, j] = DeduplicationMath.Min(m1, m2, m3);
                 }
@@ -66,7 +67,7 @@ namespace DedupeNET.StringFunctions
 
             BuildEditPath(costFunction);
 
-            return editMatrix[tokFirstString.Count, tokSecondString.Count];
+            return editMatrix[tokInputString.Count, tokReferenceString.Count];
         }
 
         private void BuildEditPath(CostFunction costFunction)
