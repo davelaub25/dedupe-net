@@ -12,6 +12,8 @@ namespace DedupeNET.Core
         public double DeletionOffset { get; set; }
         public double InsertionOffset { get; set; }
 
+        protected CostFunction() { }
+
         public abstract double GetCost(char a, char b);
         public abstract double GetCost(string a, string b);
     }

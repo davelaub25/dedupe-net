@@ -9,15 +9,16 @@ namespace DedupeNET.Core
 {
     public class TokenIDFCostFunction : CostFunction
     {
+        private double _insertionFactor;
         public double InsertionFactor
         {
-            get;
-            set;
+            get { return _insertionFactor; }
+            set { _insertionFactor = value; }
         }
 
         public TokenIDFCostFunction(double insertionFactor)
         {
-            InsertionFactor = insertionFactor;
+            _insertionFactor = insertionFactor;
         }
 
         public override double GetCost(char a, char b)
@@ -30,7 +31,7 @@ namespace DedupeNET.Core
             if (tokenA != string.Empty && tokenB != string.Empty)
             {
                 var editDistance = new EditDistance(tokenA, tokenB).Distance();
-                
+
                 if (editDistance == 1)
                 {
                     return editDistance * IDFProvider.Frequency(tokenA, 0) + MatchOffset;
