@@ -5,23 +5,40 @@ using System.Text;
 
 namespace DedupeNET.Core
 {
-    public struct EditOperation:IEquatable<EditOperation>
+    public class EditOperation : IEquatable<EditOperation>
     {
-        public char A { get; set; }
-        public char B { get; set; }
-        public double Cost { get; set; }
-        
+        private char _a;
+        public char A
+        {
+            get { return _a; }
+            set { _a = value; }
+        }
+
+        private char _b;
+        public char B
+        {
+            get { return _b; }
+            set { _b = value; }
+        }
+
+        private double _cost;
+        public double Cost
+        {
+            get { return _cost; }
+            set { _cost = value; }
+        }
+
         public EditOperation(char a, char b)
         {
-            A = char.ToLower(a); ;
-            B = char.ToLower(b);
+            _a = char.ToLower(a); ;
+            _b = char.ToLower(b);
         }
 
         public EditOperation(char a, char b, double cost)
         {
-            A = char.ToLower(a); ;
-            B = char.ToLower(b);
-            Cost = cost;
+            _a = char.ToLower(a); ;
+            _b = char.ToLower(b);
+            _cost = cost;
         }
 
         public bool Equals(EditOperation other)
@@ -31,7 +48,15 @@ namespace DedupeNET.Core
 
         public override bool Equals(object other)
         {
-            return Equals((EditOperation)other);
+            bool equal = false;
+            
+            try
+            {
+                equal = Equals((EditOperation)other);
+            }
+            catch { }
+
+            return equal;
         }
 
         public override int GetHashCode()
