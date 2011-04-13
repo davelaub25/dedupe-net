@@ -7,14 +7,14 @@ namespace DedupeNET.Core
 {
     public abstract class MeasurementFunction<T>
     {
-        private T _inputEntity;
+        protected T _inputEntity;
         public T InputEntity
         {
             get { return _inputEntity; }
             set { _inputEntity = value; }
         }
 
-        private T _referenceEntity;
+        protected T _referenceEntity;
         public T ReferenceEntity
         {
             get { return _referenceEntity; }
