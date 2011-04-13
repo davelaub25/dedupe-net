@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using DedupeNET.Configuration;
 
 namespace DedupeNET.Utils
 {
@@ -23,6 +24,12 @@ namespace DedupeNET.Utils
             }
 
             return qGrams;
+        }
+
+        public static List<string> Tokens(string text)
+        {
+            char[] separators = GeneralSettings.Settings.TokenSeparators.ToCharArray();
+            return Tokens(text, separators);
         }
 
         public static List<string> Tokens(string text, char[] separators)

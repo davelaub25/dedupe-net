@@ -20,41 +20,35 @@ namespace DedupeNET.TupleFunctions
 
         public override double Similarity()
         {
-            IEnumerable<string> inputTokenSet = InputTokenSet();
+            IEnumerable<string> inputTokenSet = GetInputTokenSet();
 
             double minimumTotalCost = MinimumCostTransformationSequence();
-            double weightsTotalCost = 0;
+            double inputTokensTotalCost = inputTokenSet.Sum(e => IDFProvider.IDF(e, 1));
 
-            foreach (string token in inputTokenSet)
-            {
-                weightsTotalCost += IDFProvider.IDF(token, 1);
-            }
-
-            return 1 - Math.Min(minimumTotalCost / weightsTotalCost, 1);
+            return 1 - Math.Min(minimumTotalCost / inputTokensTotalCost, 1);
         }
 
         private double MinimumCostTransformationSequence()
         {
-            double result=0;
+            double result = 0;
             TokenEditDistance ted;
 
-            foreach (DataColumn colum in InputEntity.Table.Columns)
+            foreach (DataColumn column in InputEntity.Table.Columns)
             {
-                ted = new TokenEditDistance(InputEntity[colum].ToString(), ReferenceEntity[colum].ToString());
+                ted = new TokenEditDistance(InputEntity[column].ToString(), ReferenceEntity[column].ToString());
                 result += ted.Distance();
             }
 
             return result;
         }
 
-        private IEnumerable<string> InputTokenSet()
+        private IEnumerable<string> GetInputTokenSet()
         {
             IEnumerable<string> result = new List<string>();
-            char[] separators = GeneralSettings.Settings.TokenSeparators.ToCharArray();
 
             foreach (DataColumn colum in InputEntity.Table.Columns)
             {
-                result = result.Union(Tokenizer.Tokens(InputEntity[colum].ToString(), separators));
+                result = result.Union(Tokenizer.Tokens(InputEntity[colum].ToString()));
             }
 
             return result;
