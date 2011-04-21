@@ -6,7 +6,7 @@ using System.Configuration;
 
 namespace DedupeNET.Configuration
 {
-    internal class GeneralSettings : ConfigurationSection
+    public class GeneralSettings : ConfigurationSection
     {
         private static GeneralSettings _instance =
             ConfigurationManager.GetSection("DedupeNET/GeneralSettings") as GeneralSettings;
@@ -18,16 +18,12 @@ namespace DedupeNET.Configuration
             get { return _instance; }
         }
 
-        [ConfigurationProperty("stopCharacters", DefaultValue = "", IsRequired = true)]
-        public string StopCharacters
+        [ConfigurationProperty("tokenization", IsRequired = true, DefaultValue = new Tokenization())]
+        public Tokenization Tokenization
         {
             get
             {
-                return (string)this["stopCharacters"];
-            }
-            set
-            {
-                this["stopCharacters"] = value;
+                return (Tokenization)this["tokenization"];
             }
         }
     }
