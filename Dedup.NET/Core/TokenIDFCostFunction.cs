@@ -18,12 +18,17 @@ namespace DedupeNET.Core
 
         public TokenIDFCostFunction(double insertionFactor)
         {
+            if (insertionFactor < 0 || insertionFactor > 1)
+            {
+                throw new ArgumentOutOfRangeException("EL factor de inserción debe ser un número entre 0 y 1");
+            }
+
             _insertionFactor = insertionFactor;
         }
 
         public override double GetCost(char a, char b)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException("Esta función de costo sólo opera al nivel de tokens.");
         }
 
         public override double GetCost(string tokenA, string tokenB)
@@ -34,20 +39,20 @@ namespace DedupeNET.Core
 
                 if (editDistance == 1)
                 {
-                    return editDistance * IDFProvider.Frequency(tokenA, 0) + MatchOffset;
+                    return editDistance * 1/*IDFProvider.Frequency(tokenA, 0) + MatchOffset*/;
                 }
                 else
                 {
-                    return editDistance * IDFProvider.Frequency(tokenA, 0) + NonMatchOffset;
+                    return editDistance * 1/*IDFProvider.Frequency(tokenA, 0) + NonMatchOffset*/;
                 }
             }
             else if (tokenA == string.Empty)
             {
-                return InsertionFactor * IDFProvider.Frequency(tokenB, 0) + InsertionOffset;
+                return InsertionFactor * 1/*IDFProvider.Frequency(tokenB, 0) + InsertionOffset*/;
             }
             else
             {
-                return IDFProvider.Frequency(tokenA, 0) + DeletionOffset;
+                return 1/*IDFProvider.Frequency(tokenA, 0)*/ + DeletionOffset;
             }
         }
     }

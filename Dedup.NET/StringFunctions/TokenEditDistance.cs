@@ -18,7 +18,7 @@ namespace DedupeNET.StringFunctions
         public TokenEditDistance(string inputString, string referenceString)
             : base(inputString, referenceString)
         {
-            char[] separators = GeneralSettings.Settings.TokenSeparators.ToCharArray();
+            char[] separators = GeneralSettings.Instance.StopCharacters.ToCharArray();
             tokInputString = Tokenizer.Tokens(inputString, separators);
             tokReferenceString = Tokenizer.Tokens(referenceString, separators);
         }

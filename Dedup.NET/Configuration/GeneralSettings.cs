@@ -6,28 +6,28 @@ using System.Configuration;
 
 namespace DedupeNET.Configuration
 {
-    public class GeneralSettings : ConfigurationSection
+    internal class GeneralSettings : ConfigurationSection
     {
-        private static GeneralSettings _settings =
-            ConfigurationManager.GetSection("GeneralSettings") as GeneralSettings;
+        private static GeneralSettings _instance =
+            ConfigurationManager.GetSection("DedupeNET/GeneralSettings") as GeneralSettings;
 
         private GeneralSettings() { }
 
-        public static GeneralSettings Settings
+        public static GeneralSettings Instance
         {
-            get { return _settings; }
+            get { return _instance; }
         }
 
-        [ConfigurationProperty("tokenSeparators", DefaultValue = "", IsRequired = true)]
-        public string TokenSeparators
+        [ConfigurationProperty("stopCharacters", DefaultValue = "", IsRequired = true)]
+        public string StopCharacters
         {
             get
             {
-                return (string)this["tokenSeparators"];
+                return (string)this["stopCharacters"];
             }
             set
             {
-                this["tokenSeparators"] = value;
+                this["stopCharacters"] = value;
             }
         }
     }
