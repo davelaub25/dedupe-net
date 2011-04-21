@@ -41,7 +41,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration\DedupeNETSettings.cs" />
     <Compile Include="Configuration\GeneralSettings.cs" />
+    <Compile Include="Configuration\IDF.cs" />
+    <Compile Include="Configuration\IDFProvider.cs" />
+    <Compile Include="Configuration\IDFProviderCollection.cs" />
+    <Compile Include="Configuration\Tokenization.cs" />
     <Compile Include="Core\CostFunction.cs" />
     <Compile Include="Core\TokenIDFCostFunction.cs" />
     <Compile Include="Core\TokenOperation.cs" />

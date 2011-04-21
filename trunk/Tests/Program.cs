@@ -10,7 +10,8 @@ namespace Tests
     {
         static void Main(string[] args)
         {
-           
+            Console.WriteLine(DedupeNETSettings.GeneralSettings.StopCharacters);
+            Console.ReadLine();
         }
     }
 }

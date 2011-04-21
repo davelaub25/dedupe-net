@@ -5,8 +5,8 @@ using System.Text;
 
 namespace DedupeNET.Enum
 {
-    public enum CharEnum
+    public class CharConstants
     {
-        Empty = '\0'
+        public static readonly char Empty = '\0';
     }
 }

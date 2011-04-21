@@ -28,7 +28,7 @@ namespace DedupeNET.Utils
 
         public static List<string> Tokens(string text)
         {
-            char[] stopCharacters = GeneralSettings.Instance.StopCharacters.ToCharArray();
+            char[] stopCharacters = DedupeNETSettings.GeneralSettings.Tokenization.StopCharacters.ToCharArray();
             return Tokens(text, stopCharacters);
         }
 
