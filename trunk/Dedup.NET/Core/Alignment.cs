@@ -65,15 +65,15 @@ namespace DedupeNET.Core
 
         private void IncreaseCounters(EditOperation operation)
         {
-            if (operation.A == (char)CharEnum.Empty)
+            if (operation.InputChar == CharConstants.Empty)
             {
                 _deletions++;
             }
-            else if (operation.B == (char)CharEnum.Empty)
+            else if (operation.ReferenceChar == CharConstants.Empty)
             {
                 _insertions++;
             }
-            else if (operation.A == operation.B)
+            else if (operation.InputChar == operation.ReferenceChar)
             {
                 _matches++;
             }

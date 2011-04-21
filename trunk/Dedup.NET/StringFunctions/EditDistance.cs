@@ -41,12 +41,12 @@ namespace DedupeNET.StringFunctions
 
             for (int i = 1; i <= InputEntity.Length; i++)
             {
-                editMatrix[i, 0] = editMatrix[i - 1, 0] + costFunction.GetCost(InputEntity[i - 1], (char)CharEnum.Empty);
+                editMatrix[i, 0] = editMatrix[i - 1, 0] + costFunction.GetCost(InputEntity[i - 1], CharConstants.Empty);
             }
 
             for (int j = 1; j <= ReferenceEntity.Length; j++)
             {
-                editMatrix[0, j] = editMatrix[0, j - 1] + costFunction.GetCost((char)CharEnum.Empty, ReferenceEntity[j - 1]);
+                editMatrix[0, j] = editMatrix[0, j - 1] + costFunction.GetCost(CharConstants.Empty, ReferenceEntity[j - 1]);
             }
 
             double m1, m2, m3;
@@ -56,8 +56,8 @@ namespace DedupeNET.StringFunctions
                 for (int j = 1; j <= ReferenceEntity.Length; j++)
                 {
                     m1 = editMatrix[i - 1, j - 1] + costFunction.GetCost(InputEntity[i - 1], ReferenceEntity[j - 1]);
-                    m2 = editMatrix[i - 1, j] + costFunction.GetCost(InputEntity[i - 1], (char)CharEnum.Empty);
-                    m3 = editMatrix[i, j - 1] + costFunction.GetCost((char)CharEnum.Empty, ReferenceEntity[j - 1]);
+                    m2 = editMatrix[i - 1, j] + costFunction.GetCost(InputEntity[i - 1], CharConstants.Empty);
+                    m3 = editMatrix[i, j - 1] + costFunction.GetCost(CharConstants.Empty, ReferenceEntity[j - 1]);
 
                     editMatrix[i, j] = DeduplicationMath.Min(m1, m2, m3);
                 }
@@ -70,6 +70,8 @@ namespace DedupeNET.StringFunctions
 
         public double NormalizedDistance(UniformCostFunction costFunction)
         {
+            ValidateUniformCostFunction(costFunction);
+
             List<double> Q = RequiredLambdaValues(costFunction);
 
             while (true)
@@ -95,6 +97,14 @@ namespace DedupeNET.StringFunctions
             }
         }
 
+        private void ValidateUniformCostFunction(UniformCostFunction costFunction)
+        {
+            if (costFunction.MatchCost < 0 || costFunction.NonMatchCost < 0 || costFunction.InsertionCost < 0 || costFunction.DeletionCost < 0)
+            {
+                throw new ArgumentOutOfRangeException("Todos los valores de la función de costo deben ser mayores o iguales a cero.");
+            }
+        }
+
         private void BuildEditPath(CostFunction costFunction)
         {
             int i = InputEntity.Length;
@@ -108,27 +118,27 @@ namespace DedupeNET.StringFunctions
                     i--;
                     j--;
                 }
-                else if (editMatrix[i, j] == editMatrix[i - 1, j] + costFunction.GetCost(InputEntity[i - 1], (char)CharEnum.Empty))
+                else if (editMatrix[i, j] == editMatrix[i - 1, j] + costFunction.GetCost(InputEntity[i - 1], CharConstants.Empty))
                 {
-                    EditPath.Prepend(new EditOperation(InputEntity[i - 1], (char)CharEnum.Empty));
+                    EditPath.Prepend(new EditOperation(InputEntity[i - 1], CharConstants.Empty));
                     i--;
                 }
                 else
                 {
-                    EditPath.Prepend(new EditOperation((char)CharEnum.Empty, ReferenceEntity[j - 1]));
+                    EditPath.Prepend(new EditOperation(CharConstants.Empty, ReferenceEntity[j - 1]));
                     j--;
                 }
             }
 
             while (i != 0)
             {
-                EditPath.Prepend(new EditOperation(InputEntity[i - 1], (char)CharEnum.Empty));
+                EditPath.Prepend(new EditOperation(InputEntity[i - 1], CharConstants.Empty));
                 i--;
             }
 
             while (j != 0)
             {
-                EditPath.Prepend(new EditOperation((char)CharEnum.Empty, ReferenceEntity[j - 1]));
+                EditPath.Prepend(new EditOperation(CharConstants.Empty, ReferenceEntity[j - 1]));
                 j--;
             }
         }

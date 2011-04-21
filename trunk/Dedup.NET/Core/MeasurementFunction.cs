@@ -23,6 +23,11 @@ namespace DedupeNET.Core
 
         public MeasurementFunction(T inputEntity, T referenceEntity)
         {
+            if (inputEntity == null || referenceEntity == null)
+            {
+                throw new ArgumentNullException("Ninguna de las dos entidades puede ser nula.");
+            }
+            
             _inputEntity = inputEntity;
             _referenceEntity = referenceEntity;
         }

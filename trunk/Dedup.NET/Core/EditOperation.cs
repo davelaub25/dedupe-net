@@ -2,23 +2,24 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using DedupeNET.Enum;
 
 namespace DedupeNET.Core
 {
     public class EditOperation : IEquatable<EditOperation>
     {
-        private char _a;
-        public char A
+        private char _inputChar;
+        public char InputChar
         {
-            get { return _a; }
-            set { _a = value; }
+            get { return _inputChar; }
+            set { _inputChar = value; }
         }
 
-        private char _b;
-        public char B
+        private char _referenceChar;
+        public char ReferenceChar
         {
-            get { return _b; }
-            set { _b = value; }
+            get { return _referenceChar; }
+            set { _referenceChar = value; }
         }
 
         private double _cost;
@@ -28,28 +29,30 @@ namespace DedupeNET.Core
             set { _cost = value; }
         }
 
-        public EditOperation(char a, char b)
+        public EditOperation(char inputChar, char referenceChar)
         {
-            _a = char.ToLower(a); ;
-            _b = char.ToLower(b);
+            ValidateChars(inputChar, referenceChar);
+            _inputChar = char.ToLower(inputChar); ;
+            _referenceChar = char.ToLower(referenceChar);
         }
 
-        public EditOperation(char a, char b, double cost)
+        public EditOperation(char inputChar, char referenceChar, double cost)
         {
-            _a = char.ToLower(a); ;
-            _b = char.ToLower(b);
+            ValidateChars(inputChar, referenceChar);
+            _inputChar = char.ToLower(inputChar); ;
+            _referenceChar = char.ToLower(referenceChar);
             _cost = cost;
         }
 
         public bool Equals(EditOperation other)
         {
-            return (char.ToLower(A) == char.ToLower(other.A) && char.ToLower(B) == char.ToLower(other.B));
+            return (char.ToLower(InputChar) == char.ToLower(other.InputChar) && char.ToLower(ReferenceChar) == char.ToLower(other.ReferenceChar));
         }
 
         public override bool Equals(object other)
         {
             bool equal = false;
-            
+
             try
             {
                 equal = Equals((EditOperation)other);
@@ -72,6 +75,14 @@ namespace DedupeNET.Core
         public static bool operator !=(EditOperation edOp1, EditOperation edOp2)
         {
             return !edOp1.Equals(edOp2);
+        }
+
+        private void ValidateChars(char inputChar, char referenceChar)
+        {
+            if (inputChar == CharConstants.Empty && referenceChar == CharConstants.Empty)
+            {
+                throw new ArgumentException("Ambos caracteres no pueden ser vacíos.");
+            }
         }
     }
 }

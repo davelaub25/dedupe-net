@@ -14,6 +14,15 @@ namespace DedupeNET.Utils
 
         public MinHash(int universeSize, int numHashFunctions)
         {
+            if (universeSize <= 0)
+            {
+                throw new ArgumentOutOfRangeException("El tamaño del universo debe ser mayor que cero.");
+            }
+            if (numHashFunctions <= 0)
+            {
+                throw new ArgumentOutOfRangeException("El número de funciones hash debe ser mayor que cero.");
+            }
+            
             _numHashFunctions = numHashFunctions;
             _hashFunctions = new Hash[_numHashFunctions];
 

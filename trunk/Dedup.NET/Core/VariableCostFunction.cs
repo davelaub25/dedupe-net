@@ -30,7 +30,7 @@ namespace DedupeNET.Core
 
             if (index != -1)
             {
-                if (a != (char)CharEnum.Empty && b != (char)CharEnum.Empty)
+                if (a != CharConstants.Empty && b != CharConstants.Empty)
                 {
                     if (a == b)
                     {
@@ -41,7 +41,7 @@ namespace DedupeNET.Core
                         return costMatrix.ElementAt(index).Cost + NonMatchOffset;
                     }
                 }
-                else if (a != (char)CharEnum.Empty && b == (char)CharEnum.Empty)
+                else if (a != CharConstants.Empty && b == CharConstants.Empty)
                 {
                     return costMatrix.ElementAt(index).Cost + DeletionOffset;
                 }
@@ -52,7 +52,7 @@ namespace DedupeNET.Core
             }
             else
             {
-                if (a != (char)CharEnum.Empty && b != (char)CharEnum.Empty)
+                if (a != CharConstants.Empty && b != CharConstants.Empty)
                 {
                     if (a == b)
                     {
@@ -63,7 +63,7 @@ namespace DedupeNET.Core
                         return defaultNonMatchCost + NonMatchOffset;
                     }
                 }
-                else if (a != (char)CharEnum.Empty && b == (char)CharEnum.Empty)
+                else if (a != CharConstants.Empty && b == CharConstants.Empty)
                 {
                     return defaultDeletionCost + DeletionOffset;
                 }
@@ -76,7 +76,7 @@ namespace DedupeNET.Core
 
         public override double GetCost(string a, string b)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException("Esta función de costo sólo opera al nivel de caracteres.");
         }
     }
 }

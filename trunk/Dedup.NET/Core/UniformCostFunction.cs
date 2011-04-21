@@ -46,11 +46,11 @@ namespace DedupeNET.Core
 
         public override double GetCost(char a, char b)
         {
-            if (a != (char)CharEnum.Empty && b == (char)CharEnum.Empty)
+            if (a != CharConstants.Empty && b == CharConstants.Empty)
             {
                 return _deletionCost + DeletionOffset;
             }
-            else if (a == (char)CharEnum.Empty && b != (char)CharEnum.Empty)
+            else if (a == CharConstants.Empty && b != CharConstants.Empty)
             {
                 return _insertionCost + InsertionOffset;
             }
@@ -66,7 +66,7 @@ namespace DedupeNET.Core
 
         public override double GetCost(string a, string b)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException("Esta función de costo sólo opera al nivel de caracteres.");
         }
     }
 }

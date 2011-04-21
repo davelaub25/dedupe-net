@@ -11,15 +11,15 @@ namespace DedupeNET.TupleFunctions
 {
     public class FuzzyMatchApproximate : SimilarityFunction<DataRow>
     {
-        private int _qgramSize;
-        public int QGramSize
+        private short _qgramSize = 2;
+        public short QgramSize
         {
             get { return _qgramSize; }
             set { _qgramSize = value; }
         }
 
-        private int _numHashFunctions;
-        public int NumHashFunctions
+        private short _numHashFunctions = 3;
+        public short NumHashFunctions
         {
             get { return _numHashFunctions; }
             set { _numHashFunctions = value; }
@@ -28,6 +28,18 @@ namespace DedupeNET.TupleFunctions
         public FuzzyMatchApproximate(DataRow inputTuple, DataRow referenceTuple)
             : base(inputTuple, referenceTuple)
         {
+        }
+
+        public FuzzyMatchApproximate(DataRow inputTuple, DataRow referenceTuple, short qgramSize, short numHashFunctions)
+            : base(inputTuple, referenceTuple)
+        {
+            if (numHashFunctions <= 0)
+            {
+                throw new ArgumentOutOfRangeException("El número de funciones hash debe ser mayor que cero.");
+            }
+
+            _qgramSize = qgramSize;
+            _numHashFunctions = numHashFunctions;
         }
 
         public override double Similarity()
@@ -45,18 +57,18 @@ namespace DedupeNET.TupleFunctions
 
                     foreach (string referenceToken in referenceColumnTokens)
                     {
-                        int universeSize = inputToken.Length + referenceToken.Length - 2 * QGramSize + 2;
+                        int universeSize = inputToken.Length + referenceToken.Length - 2 * QgramSize + 2;
                         MinHash minHash = new MinHash(universeSize, NumHashFunctions);
-                        double fmsApprox = (2 / QGramSize) * minHash.Similarity(Tokenizer.QGrams(QGramSize, inputToken), Tokenizer.QGrams(QGramSize, referenceToken)) * (1 - (1 / QGramSize));
+                        double fmsApprox = (2 / QgramSize) * minHash.Similarity(Tokenizer.QGrams(QgramSize, inputToken), Tokenizer.QGrams(QgramSize, referenceToken)) * (1 - (1 / QgramSize));
                         maxMinHash = Math.Max(maxMinHash, fmsApprox);
                     }
 
-                     double inputTokenWeight = IDFProvider.IDF(inputToken, 1);
+                     double inputTokenWeight = 1/*IDFProvider.IDF(inputToken, 1)*/;
                      similarity += inputTokenWeight * maxMinHash;
                 }
             }
 
-             double inputTokensTotalCost = GetInputTokenSet().Sum(e => IDFProvider.IDF(e, 1));
+             double inputTokensTotalCost = GetInputTokenSet().Sum(e => 1/*IDFProvider.IDF(e, 1)*/);
              similarity *= (1 / inputTokensTotalCost);
 
              return similarity;

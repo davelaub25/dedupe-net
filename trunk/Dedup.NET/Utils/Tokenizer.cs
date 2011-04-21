@@ -8,13 +8,13 @@ namespace DedupeNET.Utils
 {
     public static class Tokenizer
     {
-        public static HashSet<string> QGrams(int q, string text)
+        public static HashSet<string> QGrams(short q, string text)
         {
-            if (q > text.Length)
+            if (q <= 0)
             {
-                throw new ArgumentException();
+                throw new ArgumentException("El parámetro q debe ser mayor que cero.");
             }
-            
+
             int numQGrams = text.Length - q + 1;
             HashSet<string> qGrams = new HashSet<string>();
 
@@ -28,13 +28,13 @@ namespace DedupeNET.Utils
 
         public static List<string> Tokens(string text)
         {
-            char[] separators = GeneralSettings.Settings.TokenSeparators.ToCharArray();
-            return Tokens(text, separators);
+            char[] stopCharacters = GeneralSettings.Instance.StopCharacters.ToCharArray();
+            return Tokens(text, stopCharacters);
         }
 
-        public static List<string> Tokens(string text, char[] separators)
+        public static List<string> Tokens(string text, char[] stopCharacters)
         {
-            return text.Split(separators, StringSplitOptions.RemoveEmptyEntries).ToList();
+            return text.Split(stopCharacters).ToList();
         }
     }
 }

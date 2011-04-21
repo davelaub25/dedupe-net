@@ -23,7 +23,7 @@ namespace DedupeNET.TupleFunctions
             IEnumerable<string> inputTokenSet = GetInputTokenSet();
 
             double minimumTotalCost = MinimumCostTransformationSequence();
-            double inputTokensTotalCost = inputTokenSet.Sum(e => IDFProvider.IDF(e, 1));
+            double inputTokensTotalCost = inputTokenSet.Sum(e => 1/*IDFProvider.IDF(e, 1)*/);
 
             return 1 - Math.Min(minimumTotalCost / inputTokensTotalCost, 1);
         }

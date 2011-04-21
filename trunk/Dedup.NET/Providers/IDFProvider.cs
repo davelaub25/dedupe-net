@@ -5,16 +5,12 @@ using System.Text;
 
 namespace DedupeNET.Providers
 {
-    public static class IDFProvider
+    public abstract class IDFProvider
     {
-        public static double Frequency(string token, int columnIndex)
-        {
-            return 1;
-        }
+        public abstract double Frequency(string token, int columnIndex);
+        public abstract double Frecuency(string token, string columnName);
 
-        public static double IDF(string token, int columnIndex)
-        {
-            return Math.Log10(1 / Frequency(token, columnIndex));
-        }
+        public abstract double IDF(string token, int columnIndex);
+        public abstract double IDF(string token, string columnName);
     }
 }
