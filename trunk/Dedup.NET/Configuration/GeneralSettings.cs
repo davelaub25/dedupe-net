@@ -18,7 +18,7 @@ namespace DedupeNET.Configuration
             get { return _instance; }
         }
 
-        [ConfigurationProperty("tokenization", IsRequired = true, DefaultValue = new Tokenization())]
+        [ConfigurationProperty("tokenization", IsRequired = true)]
         public Tokenization Tokenization
         {
             get
