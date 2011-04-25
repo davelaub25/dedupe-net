@@ -18,12 +18,16 @@ namespace DedupeNET.Configuration
             get { return _instance; }
         }
 
-        [ConfigurationProperty("tokenization", IsRequired = true)]
+        [ConfigurationProperty("Tokenization", IsRequired = true)]
         public Tokenization Tokenization
         {
             get
             {
-                return (Tokenization)this["tokenization"];
+                return (Tokenization)this["Tokenization"];
+            }
+            set
+            {
+                this["Tokenization"] = value;
             }
         }
     }
