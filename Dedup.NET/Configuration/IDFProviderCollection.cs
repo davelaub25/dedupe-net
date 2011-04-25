@@ -6,63 +6,66 @@ using System.Configuration;
 
 namespace DedupeNET.Configuration
 {
-    public class IDFProviderCollection//: ConfigurationElementCollection
+    public class IDFProviderCollection : ConfigurationElementCollection
     {
-        /*public class ArticleCollection : ConfigurationElementCollection
+        public override ConfigurationElementCollectionType CollectionType
         {
-            public override ConfigurationElementCollectionType CollectionType
+            get
             {
-                get
+                return ConfigurationElementCollectionType.AddRemoveClearMap;
+            }
+        }
+
+        public IDFProvider this[int index]
+        {
+            get
+            {
+                return (IDFProvider)BaseGet(index);
+            }
+            set
+            {
+                if (BaseGet(index) != null)
                 {
-                    return ConfigurationElementCollectionType.AddRemoveClearMap;
+                    BaseRemoveAt(index);
                 }
+                BaseAdd(index, value);
             }
+        }
 
-            public ArticleElement this[int index]
-            {
-                get { return (ArticleElement)BaseGet(index); }
-                set
-                {
-                    if (BaseGet(index) != null)
-                        BaseRemoveAt(index);
-                    BaseAdd(index, value);
-                }
-            }
+        public void Add(IDFProvider element)
+        {
+            BaseAdd(element);
+        }
 
-            public void Add(ArticleElement element)
-            {
-                BaseAdd(element);
-            }
+        public void Remove(IDFProvider element)
+        {
+            BaseRemove(element.Name);
+        }
 
-            public void Clear()
-            {
-                BaseClear();
-            }
+        public void Remove(string name)
+        {
+            BaseRemove(name);
+        }
 
-            protected override ConfigurationElement CreateNewElement()
-            {
-                return new ArticleElement();
-            }
+        public void RemoveAt(int index)
+        {
+            BaseRemoveAt(index);
+        }
 
-            protected override object GetElementKey(ConfigurationElement element)
-            {
-                return ((ArticleElement)element).Title;
-            }
+        public void Clear()
+        {
+            BaseClear();
+        }
 
-            public void Remove(ArticleElement element)
-            {
-                BaseRemove(element.Title);
-            }
+        protected override ConfigurationElement CreateNewElement()
+        {
+            return new IDFProvider();
+        }
 
-            public void Remove(string name)
-            {
-                BaseRemove(name);
-            }
+        protected override object GetElementKey(ConfigurationElement element)
+        {
+            return ((IDFProvider)element).Name;
+        }
 
-            public void RemoveAt(int index)
-            {
-                BaseRemoveAt(index);
-            }
-        }*/
     }
 }

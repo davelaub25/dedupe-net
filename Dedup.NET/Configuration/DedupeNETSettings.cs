@@ -11,5 +11,10 @@ namespace DedupeNET.Configuration
         {
             get { return GeneralSettings.Instance; }
         }
+
+        public static IDFSettings IDFSettings
+        {
+            get { return IDFSettings.Instance; }
+        }
     }
 }

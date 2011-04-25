@@ -9,7 +9,6 @@ namespace DedupeNET.Configuration
     public class Tokenization : ConfigurationElement
     {
         [ConfigurationProperty("stopCharacters", IsRequired = true)]
-        [StringValidator(MinLength = 1)]
         public string StopCharacters
         {
             get
