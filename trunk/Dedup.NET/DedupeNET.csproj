@@ -34,6 +34,7 @@
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -43,14 +44,17 @@
   <ItemGroup>
     <Compile Include="Configuration\DedupeNETSettings.cs" />
     <Compile Include="Configuration\GeneralSettings.cs" />
-    <Compile Include="Configuration\IDF.cs" />
+    <Compile Include="Configuration\IDFSettings.cs" />
     <Compile Include="Configuration\IDFProvider.cs" />
     <Compile Include="Configuration\IDFProviderCollection.cs" />
     <Compile Include="Configuration\Tokenization.cs" />
+    <Compile Include="Core\ColumnToken.cs" />
     <Compile Include="Core\CostFunction.cs" />
     <Compile Include="Core\TokenIDFCostFunction.cs" />
     <Compile Include="Core\TokenOperation.cs" />
-    <Compile Include="Providers\IDFProvider.cs" />
+    <Compile Include="DataAccess\IDFDataAccess.cs" />
+    <Compile Include="Providers\IDF.cs" />
+    <Compile Include="Providers\IDFProviderBase.cs" />
     <Compile Include="Providers\InMemoryIDFProvider.cs" />
     <Compile Include="StringFunctions\TokenEditDistance.cs" />
     <Compile Include="Core\VariableCostFunction.cs" />
