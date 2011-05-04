@@ -86,7 +86,7 @@ namespace DedupeNET.Utils
 
         private int QHash(uint x, uint a, uint b, uint c, uint bound)
         {
-            //Modify the hash family as per the size of possible elements in a Set
+            //Modify the hash family as per the size of possible elements in a set
             int hashValue = (int)((a * (x >> 4) + b * x + c) & 131071);
             return Math.Abs(hashValue);
         }

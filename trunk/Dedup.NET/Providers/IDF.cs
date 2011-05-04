@@ -21,12 +21,14 @@ namespace DedupeNET.Providers
                     IDFProvider defaultProvider = DedupeNETSettings.IDFSettings.DefaultProvider;
                     Type type = Type.GetType(defaultProvider.Type);
 
-                    Type[] paramTypes = new Type[1];
+                    Type[] paramTypes = new Type[2];
                     paramTypes[0] = typeof(string);
+                    paramTypes[1] = typeof(string);
                     ConstructorInfo constructorInfo = type.GetConstructor(paramTypes);
 
-                    object[] paramArray = new object[1];
+                    object[] paramArray = new object[2];
                     paramArray[0] = ConfigurationManager.ConnectionStrings[defaultProvider.ConnectionStringName].ConnectionString;
+                    paramArray[1] = DedupeNETSettings.IDFSettings.DefaultProvider.RelationName;
 
                     _provider = (IDFProviderBase)(constructorInfo.Invoke(paramArray));
                 }
@@ -42,24 +44,14 @@ namespace DedupeNET.Providers
             }
         }
 
-        public static double Frequency(string token, int columnIndex)
+        public static int Frecuency(string token, string columnName)
         {
-            return 0;
-        }
-
-        public static double Frecuency(string token, string columnName)
-        {
-            return 0;
-        }
-
-        public static double InverseDocumentFrequency(string token, int columnIndex)
-        {
-            return 0;
+            return Provider.Frecuency(token, columnName);
         }
 
         public static double InverseDocumentFrequency(string token, string columnName)
         {
-            return 0;
+            return Provider.InverseDocumentFrequency(token, columnName);
         }
     }
 }

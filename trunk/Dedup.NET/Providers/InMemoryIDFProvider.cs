@@ -11,20 +11,20 @@ namespace DedupeNET.Providers
     {
         private string _connectionString;
 
-        private Dictionary<ColumnToken, long> _columnTokenCount;
+        private Dictionary<ColumnToken, int> _columnTokenCount;
 
-        private long _recordCount;
-        
+        private int _recordCount;
+
         public InMemoryIDFProvider(string connectionString, string relationName)
         {
             _connectionString = connectionString;
-            _columnTokenCount = new Dictionary<ColumnToken, long>();
+            _columnTokenCount = new Dictionary<ColumnToken, int>();
             _recordCount = IDFDataAccess.GetRecordCount();
         }
 
-        public override double Frecuency(string token, string columnName)
+        public override int Frecuency(string token, string columnName)
         {
-            long result =0;
+            int result = 0;
 
             if (_columnTokenCount.TryGetValue(new ColumnToken(token, columnName), out result) == false)
             {

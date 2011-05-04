@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using DedupeNET.Configuration;
 using System.Configuration;
+using DedupeNET.Providers;
 
 namespace Tests
 {
@@ -11,7 +12,7 @@ namespace Tests
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(DedupeNETSettings.IDFSettings.IDFProviders[0].Name);
+            Console.WriteLine(IDF.Frecuency("cosa", "Email"));
             Console.ReadLine();
         }
     }

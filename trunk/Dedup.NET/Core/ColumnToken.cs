@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DedupeNET.Core
 {
-    public class ColumnToken
+    public class ColumnToken: IEquatable<ColumnToken>
     {
         private string _token;
         public string Token
@@ -28,8 +28,23 @@ namespace DedupeNET.Core
                 throw new ArgumentNullException("El parámetro columnName no puede ser nulo.");
             }
 
-            _token = token;
-            _columnName = columnName;
+            _token = token.ToLower().Trim();
+            _columnName = columnName.Trim();
+        }
+
+        public bool Equals(ColumnToken other)
+        {
+            return _token == other.Token && _columnName == other.ColumnName;
+        }
+
+        public override bool Equals(object other)
+        {
+            return Equals((ColumnToken)other);
+        }
+
+        public override int GetHashCode()
+        {
+            return _token.GetHashCode() ^ _columnName.GetHashCode();
         }
     }
 }
