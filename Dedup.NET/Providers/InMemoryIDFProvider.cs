@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using DedupeNET.Core;
 using DedupeNET.DataAccess;
+using System.Data.Common;
+using DedupeNET.Configuration;
+using System.Configuration;
 
 namespace DedupeNET.Providers
 {
@@ -14,6 +17,19 @@ namespace DedupeNET.Providers
         private Dictionary<ColumnToken, int> _columnTokenCount;
 
         private int _recordCount;
+
+        private static DbProviderFactory _dbProviderFactory;
+        private static DbProviderFactory DbProviderFactory
+        {
+            get
+            {
+                if (_dbProviderFactory == null)
+                {
+                    _dbProviderFactory = DbProviderFactories.GetFactory(DedupeNETSettings.IDFSettings.DefaultProvider.DataProvider);
+                }
+                return _dbProviderFactory;
+            }
+        }
 
         public InMemoryIDFProvider(string connectionString, string relationName)
         {
@@ -36,7 +52,43 @@ namespace DedupeNET.Providers
 
         public override double InverseDocumentFrequency(string token, string columnName)
         {
-            throw new NotImplementedException();
+            int tokenFrequency = Frecuency(token, columnName);
+
+            if (tokenFrequency == 0)
+            {
+
+            }
+            else
+            {
+                return Math.Log10(IDFDataAccess.GetRecordCount() / tokenFrequency);
+            }
+        }
+
+        private double AverageIDF()
+        {
+            using (DbConnection cn = DbProviderFactory.CreateConnection())
+            {
+                IDFProvider defaultProvider = DedupeNETSettings.IDFSettings.DefaultProvider;
+
+                cn.ConnectionString = ConfigurationManager.ConnectionStrings[defaultProvider.ConnectionStringName].ConnectionString;
+                cn.Open();
+
+                DbCommand cmd = DbProviderFactory.CreateCommand();
+                cmd.Connection = cn;
+                cmd.CommandText = string.Format("SELECT * FROM {0}", defaultProvider.RelationName);
+
+                // Obtain a data reader a la ExecuteReader(). 
+                using (DbDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        Console.WriteLine("-> Make: {0}, PetName: {1}, Color: {2}.",
+                                          myDataReader["Make"].ToString(),
+                                          myDataReader["PetName"].ToString(),
+                                          myDataReader["Color"].ToString());
+                    }
+                }
+            }
         }
     }
 }
