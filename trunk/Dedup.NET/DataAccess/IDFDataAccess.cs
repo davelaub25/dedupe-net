@@ -35,7 +35,7 @@ namespace DedupeNET.DataAccess
 
                 DbCommand cmd = DbProviderFactory.CreateCommand();
                 cmd.Connection = cn;
-                cmd.CommandText = string.Format("SELECT COUNT(*) FROM {0};", defaultProvider.RelationName);
+                cmd.CommandText = string.Format("SELECT COUNT(*) FROM {0}", defaultProvider.RelationName);
 
                 return (int)cmd.ExecuteScalar();
             }
@@ -52,7 +52,9 @@ namespace DedupeNET.DataAccess
 
                 DbCommand cmd = DbProviderFactory.CreateCommand();
                 cmd.Connection = cn;
-                cmd.CommandText = string.Format("SELECT COUNT(*) FROM {0} WHERE {0}.{1} LIKE '%{2}%'", defaultProvider.RelationName, columnName, token);
+
+                cmd.CommandText = string.Format("SELECT COUNT(*) FROM {0} WHERE (SELECT COUNT(*) FROM dbo.TokenizeString({1}, {2}) WHERE Token = '{3}') > 0",
+                    defaultProvider.RelationName, defaultProvider.RelationName + columnName, DedupeNETSettings.GeneralSettings.Tokenization.StopCharacters, token);
 
                 return (int)cmd.ExecuteScalar();
             }
