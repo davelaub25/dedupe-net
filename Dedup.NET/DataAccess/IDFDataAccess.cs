@@ -53,7 +53,7 @@ namespace DedupeNET.DataAccess
                 DbCommand cmd = DbProviderFactory.CreateCommand();
                 cmd.Connection = cn;
 
-                cmd.CommandText = string.Format("SELECT COUNT(*) FROM {0} WHERE (SELECT COUNT(*) FROM dbo.TokenizeString({1}, {2}) WHERE Token = '{3}') > 0",
+                cmd.CommandText = string.Format("SELECT COUNT(*) FROM {0} WHERE (SELECT COUNT(*) FROM dbo.TokenizeString({1}, '{2}') WHERE Token = '{3}') > 0",
                     defaultProvider.RelationName, defaultProvider.RelationName + columnName, DedupeNETSettings.GeneralSettings.Tokenization.StopCharacters, token);
 
                 return (int)cmd.ExecuteScalar();
