@@ -64,8 +64,16 @@ namespace DedupeNET.Providers
             }
         }
 
-        private double AverageIDF()
+        private double AverageIDF(string columnName)
         {
+            IEnumerable<string> columnTokenSet = ColumnTokenSet(columnName);
+
+        }
+
+        private IEnumerable<string> ColumnTokenSet(string columnName)
+        {
+            List<string> tokenSet = new List<string>();
+
             using (DbConnection cn = DbProviderFactory.CreateConnection())
             {
                 IDFProvider defaultProvider = DedupeNETSettings.IDFSettings.DefaultProvider;
@@ -75,20 +83,19 @@ namespace DedupeNET.Providers
 
                 DbCommand cmd = DbProviderFactory.CreateCommand();
                 cmd.Connection = cn;
-                cmd.CommandText = string.Format("SELECT * FROM {0}", defaultProvider.RelationName);
+                cmd.CommandText = string.Format("SELECT dbo.Tokenize({0}.{1}, '{2}') as Token from {0}", defaultProvider.RelationName, columnName, DedupeNETSettings.GeneralSettings.Tokenization.StopCharacters);
 
-                // Obtain a data reader a la ExecuteReader(). 
                 using (DbDataReader reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        Console.WriteLine("-> Make: {0}, PetName: {1}, Color: {2}.",
-                                          myDataReader["Make"].ToString(),
-                                          myDataReader["PetName"].ToString(),
-                                          myDataReader["Color"].ToString());
+                        string tokenString = reader["Token"].ToString();
+                        tokenSet.AddRange(tokenString.Split(";".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).AsEnumerable());
                     }
                 }
             }
+
+            return tokenSet.Distinct().ToList();
         }
     }
 }
