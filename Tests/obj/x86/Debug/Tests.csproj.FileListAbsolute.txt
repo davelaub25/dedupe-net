@@ -1,3 +1,4 @@
+I:\Desarrollo\Deduplicacion\AN\Tests\bin\Debug\Tests.exe.config
 I:\Desarrollo\Deduplicacion\AN\Tests\bin\Debug\Tests.exe
 I:\Desarrollo\Deduplicacion\AN\Tests\bin\Debug\Tests.pdb
 I:\Desarrollo\Deduplicacion\AN\Tests\bin\Debug\DedupeNET.dll
@@ -5,4 +6,3 @@ I:\Desarrollo\Deduplicacion\AN\Tests\bin\Debug\DedupeNET.pdb
 I:\Desarrollo\Deduplicacion\AN\Tests\obj\x86\Debug\ResolveAssemblyReference.cache
 I:\Desarrollo\Deduplicacion\AN\Tests\obj\x86\Debug\Tests.exe
 I:\Desarrollo\Deduplicacion\AN\Tests\obj\x86\Debug\Tests.pdb
-I:\Desarrollo\Deduplicacion\AN\Tests\bin\Debug\Tests.exe.config
