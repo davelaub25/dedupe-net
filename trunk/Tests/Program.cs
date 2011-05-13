@@ -12,8 +12,8 @@ namespace Tests
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(IDF.Frecuency("cosa", "Email"));
-            Console.ReadLine();
+            InMemoryIDFProvider iip = new InMemoryIDFProvider();
+            Console.WriteLine(iip.ColumnTokenSetCommand);
         }
     }
 }

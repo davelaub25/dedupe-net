@@ -7,6 +7,8 @@ using DedupeNET.DataAccess;
 using System.Data.Common;
 using DedupeNET.Configuration;
 using System.Configuration;
+using System.IO;
+using System.Reflection;
 
 namespace DedupeNET.Providers
 {
@@ -31,11 +33,31 @@ namespace DedupeNET.Providers
             }
         }
 
+        private string _columnTokenSetCommand;
+        public string ColumnTokenSetCommand
+        {
+            get
+            {
+                if (_columnTokenSetCommand == null)
+                {
+                    Assembly assembly = Assembly.GetExecutingAssembly();
+                    StreamReader streamReader = new StreamReader(assembly.GetManifestResourceStream("DedupeNET.Resources.Data.ColumnTokensCount.sql"));
+                    _columnTokenSetCommand = streamReader.ReadToEnd();
+                }
+                return _columnTokenSetCommand;
+            }
+        }
+
         public InMemoryIDFProvider(string connectionString, string relationName)
         {
             _connectionString = connectionString;
             _columnTokenCount = new Dictionary<ColumnToken, int>();
             _recordCount = IDFDataAccess.GetRecordCount();
+        }
+
+        public InMemoryIDFProvider()
+        {
+            // TODO: Complete member initialization
         }
 
         public override int Frecuency(string token, string columnName)
@@ -56,7 +78,7 @@ namespace DedupeNET.Providers
 
             if (tokenFrequency == 0)
             {
-
+                return 0;
             }
             else
             {
@@ -66,8 +88,8 @@ namespace DedupeNET.Providers
 
         private double AverageIDF(string columnName)
         {
-            IEnumerable<string> columnTokenSet = ColumnTokenSet(columnName);
-
+            //IEnumerable<string> columnTokenSet = ColumnTokenSet(columnName);
+            return 0;
         }
 
         private IEnumerable<string> ColumnTokenSet(string columnName)
