@@ -13,7 +13,7 @@ namespace Tests
         static void Main(string[] args)
         {
             InMemoryIDFProvider iip = new InMemoryIDFProvider();
-            Console.WriteLine(iip.ColumnTokenSetCommand);
+            Console.WriteLine(iip.ColumnTokensCountCommand);
         }
     }
 }

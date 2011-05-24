@@ -1,24 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using DedupeNET.Core;
-using DedupeNET.DataAccess;
 using System.Data.Common;
 using DedupeNET.Configuration;
-using System.Configuration;
-using System.IO;
-using System.Reflection;
+using DedupeNET.Core;
+using DedupeNET.DataAccess;
+using System.Linq;
 
 namespace DedupeNET.Providers
 {
     public class InMemoryIDFProvider : IDFProviderBase
     {
+        #region PROPERTIES/VARIABLES
+
         private string _connectionString;
-
-        private Dictionary<ColumnToken, int> _columnTokenCount;
-
         private int _recordCount;
+
+        private Dictionary<string, Dictionary<string, int>> _columnTokensCount;
 
         private static DbProviderFactory _dbProviderFactory;
         private static DbProviderFactory DbProviderFactory
@@ -33,25 +30,12 @@ namespace DedupeNET.Providers
             }
         }
 
-        private string _columnTokenSetCommand;
-        public string ColumnTokenSetCommand
-        {
-            get
-            {
-                if (_columnTokenSetCommand == null)
-                {
-                    Assembly assembly = Assembly.GetExecutingAssembly();
-                    StreamReader streamReader = new StreamReader(assembly.GetManifestResourceStream("DedupeNET.Resources.Data.ColumnTokensCount.sql"));
-                    _columnTokenSetCommand = streamReader.ReadToEnd();
-                }
-                return _columnTokenSetCommand;
-            }
-        }
+        #endregion
 
         public InMemoryIDFProvider(string connectionString, string relationName)
         {
             _connectionString = connectionString;
-            _columnTokenCount = new Dictionary<ColumnToken, int>();
+            _columnTokensCount = new Dictionary<string, Dictionary<string, int>>();
             _recordCount = IDFDataAccess.GetRecordCount();
         }
 
@@ -62,14 +46,15 @@ namespace DedupeNET.Providers
 
         public override int Frecuency(string token, string columnName)
         {
-            int result = 0;
+            Dictionary<string, int> _tokensCount = null;
 
-            if (_columnTokenCount.TryGetValue(new ColumnToken(token, columnName), out result) == false)
+            if (_columnTokensCount.TryGetValue(columnName, out _tokensCount) == false)
             {
-                _columnTokenCount[new ColumnToken(token, columnName)] = IDFDataAccess.GetTokenCount(token, columnName);
+                _tokensCount = IDFDataAccess.ColumnTokensCount(columnName);
+                _columnTokensCount.Add(columnName, _tokensCount);
             }
 
-            return _columnTokenCount[new ColumnToken(token, columnName)];
+            return _columnTokensCount[columnName][token];
         }
 
         public override double InverseDocumentFrequency(string token, string columnName)
@@ -88,36 +73,10 @@ namespace DedupeNET.Providers
 
         private double AverageIDF(string columnName)
         {
-            //IEnumerable<string> columnTokenSet = ColumnTokenSet(columnName);
+
             return 0;
         }
 
-        private IEnumerable<string> ColumnTokenSet(string columnName)
-        {
-            List<string> tokenSet = new List<string>();
 
-            using (DbConnection cn = DbProviderFactory.CreateConnection())
-            {
-                IDFProvider defaultProvider = DedupeNETSettings.IDFSettings.DefaultProvider;
-
-                cn.ConnectionString = ConfigurationManager.ConnectionStrings[defaultProvider.ConnectionStringName].ConnectionString;
-                cn.Open();
-
-                DbCommand cmd = DbProviderFactory.CreateCommand();
-                cmd.Connection = cn;
-                cmd.CommandText = string.Format("SELECT dbo.Tokenize({0}.{1}, '{2}') as Token from {0}", defaultProvider.RelationName, columnName, DedupeNETSettings.GeneralSettings.Tokenization.StopCharacters);
-
-                using (DbDataReader reader = cmd.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        string tokenString = reader["Token"].ToString();
-                        tokenSet.AddRange(tokenString.Split(";".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).AsEnumerable());
-                    }
-                }
-            }
-
-            return tokenSet.Distinct().ToList();
-        }
     }
 }
