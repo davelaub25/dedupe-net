@@ -6,6 +6,9 @@ using System.Data.Common;
 using DedupeNET.Providers;
 using DedupeNET.Configuration;
 using System.Configuration;
+using System.Reflection;
+using System.IO;
+using DedupeNET.Core;
 
 namespace DedupeNET.DataAccess
 {
@@ -21,6 +24,25 @@ namespace DedupeNET.DataAccess
                     _dbProviderFactory = DbProviderFactories.GetFactory(DedupeNETSettings.IDFSettings.DefaultProvider.DataProvider);
                 }
                 return _dbProviderFactory;
+            }
+        }
+
+        private static string _columnTokensCountCommand;
+        private static string ColumnTokensCountCommand
+        {
+            get
+            {
+                if (_columnTokensCountCommand == null)
+                {
+                    Assembly assembly = Assembly.GetExecutingAssembly();
+                    StreamReader streamReader = new StreamReader(assembly.GetManifestResourceStream("DedupeNET.Resources.Data.SQLServer.ColumnTokensCount.sql"));
+                    _columnTokensCountCommand = streamReader.ReadToEnd();
+                }
+                return _columnTokensCountCommand;
+            }
+            set
+            {
+                _columnTokensCountCommand = value;
             }
         }
 
@@ -41,23 +63,35 @@ namespace DedupeNET.DataAccess
             }
         }
 
-        public static int GetTokenCount(string token, string columnName)
+        public static Dictionary<string, int> ColumnTokensCount(string columnName)
         {
+            Dictionary<string, int> result = new Dictionary<string, int>();
+
             using (DbConnection cn = DbProviderFactory.CreateConnection())
             {
                 IDFProvider defaultProvider = DedupeNETSettings.IDFSettings.DefaultProvider;
 
-                cn.ConnectionString = ConfigurationManager.ConnectionStrings[DedupeNETSettings.IDFSettings.DefaultProvider.ConnectionStringName].ConnectionString;
+                cn.ConnectionString = ConfigurationManager.ConnectionStrings[defaultProvider.ConnectionStringName].ConnectionString;
                 cn.Open();
 
                 DbCommand cmd = DbProviderFactory.CreateCommand();
                 cmd.Connection = cn;
 
-                cmd.CommandText = string.Format("SELECT COUNT(*) FROM {0} WHERE (SELECT COUNT(*) FROM dbo.TokenizeString({1}, '{2}') WHERE Token = '{3}') > 0",
-                    defaultProvider.RelationName, defaultProvider.RelationName + columnName, DedupeNETSettings.GeneralSettings.Tokenization.StopCharacters, token);
+                ColumnTokensCountCommand = ColumnTokensCountCommand.Replace("###relationName###", defaultProvider.RelationName);
+                ColumnTokensCountCommand = ColumnTokensCountCommand.Replace("###columnName###", columnName);
 
-                return (int)cmd.ExecuteScalar();
+                cmd.CommandText = ColumnTokensCountCommand;
+
+                using (DbDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        result.Add(reader["Token"].ToString(), (int)reader["Count"]);
+                    }
+                }
             }
+
+            return result;
         }
     }
 }
