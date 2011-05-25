@@ -44,9 +44,9 @@ namespace DedupeNET.Providers
             }
         }
 
-        public static int Frecuency(string token, string columnName)
+        public static int Frequency(string token, string columnName)
         {
-            return Provider.Frecuency(token, columnName);
+            return Provider.Frequency(token, columnName);
         }
 
         public static double InverseDocumentFrequency(string token, string columnName)

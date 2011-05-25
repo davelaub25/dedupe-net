@@ -3,3 +3,8 @@ I:\Desarrollo\Deduplicacion\AN\Dedup.NET\bin\Debug\DedupeNET.pdb
 I:\Desarrollo\Deduplicacion\AN\Dedup.NET\obj\Debug\ResolveAssemblyReference.cache
 I:\Desarrollo\Deduplicacion\AN\Dedup.NET\obj\Debug\DedupeNET.dll
 I:\Desarrollo\Deduplicacion\AN\Dedup.NET\obj\Debug\DedupeNET.pdb
+I:\Desarrollo\Deduplicacion\Dedup.NET\Dedup.NET\bin\Debug\DedupeNET.dll
+I:\Desarrollo\Deduplicacion\Dedup.NET\Dedup.NET\bin\Debug\DedupeNET.pdb
+I:\Desarrollo\Deduplicacion\Dedup.NET\Dedup.NET\obj\Debug\ResolveAssemblyReference.cache
+I:\Desarrollo\Deduplicacion\Dedup.NET\Dedup.NET\obj\Debug\DedupeNET.dll
+I:\Desarrollo\Deduplicacion\Dedup.NET\Dedup.NET\obj\Debug\DedupeNET.pdb

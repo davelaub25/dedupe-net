@@ -56,6 +56,10 @@
     <Compile Include="Providers\IDF.cs" />
     <Compile Include="Providers\IDFProviderBase.cs" />
     <Compile Include="Providers\InMemoryIDFProvider.cs" />
+    <Compile Include="Resources\Data\Common\CommonDataResources.cs" />
+    <Compile Include="Resources\Data\DataResources.cs" />
+    <Compile Include="Resources\Data\SqlServer\SqlServerResources.cs" />
+    <Compile Include="Resources\DedupeNETResources.cs" />
     <Compile Include="StringFunctions\TokenEditDistance.cs" />
     <Compile Include="Core\VariableCostFunction.cs" />
     <Compile Include="Core\EditOperation.cs" />
@@ -74,7 +78,11 @@
     <Compile Include="Utils\Tokenizer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Data\SQLServer\ColumnTokensCount.sql" />
+    <EmbeddedResource Include="Resources\Data\SqlServer\ColumnTokensCount.sql" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Data\Common\RecordCount.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

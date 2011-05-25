@@ -9,6 +9,7 @@ using System.Configuration;
 using System.Reflection;
 using System.IO;
 using DedupeNET.Core;
+using DedupeNET.Resources;
 
 namespace DedupeNET.DataAccess
 {
@@ -27,25 +28,6 @@ namespace DedupeNET.DataAccess
             }
         }
 
-        private static string _columnTokensCountCommand;
-        private static string ColumnTokensCountCommand
-        {
-            get
-            {
-                if (_columnTokensCountCommand == null)
-                {
-                    Assembly assembly = Assembly.GetExecutingAssembly();
-                    StreamReader streamReader = new StreamReader(assembly.GetManifestResourceStream("DedupeNET.Resources.Data.SQLServer.ColumnTokensCount.sql"));
-                    _columnTokensCountCommand = streamReader.ReadToEnd();
-                }
-                return _columnTokensCountCommand;
-            }
-            set
-            {
-                _columnTokensCountCommand = value;
-            }
-        }
-
         public static int GetRecordCount()
         {
             using (DbConnection cn = DbProviderFactory.CreateConnection())
@@ -57,7 +39,9 @@ namespace DedupeNET.DataAccess
 
                 DbCommand cmd = DbProviderFactory.CreateCommand();
                 cmd.Connection = cn;
-                cmd.CommandText = string.Format("SELECT COUNT(*) FROM {0}", defaultProvider.RelationName);
+
+                cmd.CommandText = string.Format(DedupeNETResources.Data.Common.RecordCountCommand,
+                    defaultProvider.RelationName);
 
                 return (int)cmd.ExecuteScalar();
             }
@@ -77,10 +61,10 @@ namespace DedupeNET.DataAccess
                 DbCommand cmd = DbProviderFactory.CreateCommand();
                 cmd.Connection = cn;
 
-                ColumnTokensCountCommand = ColumnTokensCountCommand.Replace("###relationName###", defaultProvider.RelationName);
-                ColumnTokensCountCommand = ColumnTokensCountCommand.Replace("###columnName###", columnName);
-
-                cmd.CommandText = ColumnTokensCountCommand;
+                cmd.CommandText = string.Format(DedupeNETResources.Data.SqlServer.ColumnTokensCountCommand,
+                        defaultProvider.RelationName,
+                        columnName,
+                        DedupeNETSettings.GeneralSettings.Tokenization.StopCharacters); ;
 
                 using (DbDataReader reader = cmd.ExecuteReader())
                 {
