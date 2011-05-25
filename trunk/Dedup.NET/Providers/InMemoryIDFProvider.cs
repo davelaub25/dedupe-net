@@ -44,7 +44,7 @@ namespace DedupeNET.Providers
             // TODO: Complete member initialization
         }
 
-        public override int Frecuency(string token, string columnName)
+        public override int Frequency(string token, string columnName)
         {
             Dictionary<string, int> _tokensCount = null;
 
@@ -54,29 +54,25 @@ namespace DedupeNET.Providers
                 _columnTokensCount.Add(columnName, _tokensCount);
             }
 
-            return _columnTokensCount[columnName][token];
+            if (_columnTokensCount[columnName].ContainsKey(token))
+            {
+                return _columnTokensCount[columnName][token];
+            }
+            return 0;
         }
 
         public override double InverseDocumentFrequency(string token, string columnName)
         {
-            int tokenFrequency = Frecuency(token, columnName);
+            int tokenFrequency = Frequency(token, columnName);
 
             if (tokenFrequency == 0)
             {
-                return 0;
+                return _columnTokensCount[columnName].Average(e => Math.Log10(IDFDataAccess.GetRecordCount() / e.Value));
             }
             else
             {
                 return Math.Log10(IDFDataAccess.GetRecordCount() / tokenFrequency);
             }
         }
-
-        private double AverageIDF(string columnName)
-        {
-
-            return 0;
-        }
-
-
     }
 }

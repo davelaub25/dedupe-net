@@ -5,6 +5,9 @@ using System.Text;
 using DedupeNET.Configuration;
 using System.Configuration;
 using DedupeNET.Providers;
+using DedupeNET.Resources;
+using DedupeNET.Resources.Data.SqlServer;
+using DedupeNET.DataAccess;
 
 namespace Tests
 {
@@ -12,8 +15,8 @@ namespace Tests
     {
         static void Main(string[] args)
         {
-            InMemoryIDFProvider iip = new InMemoryIDFProvider();
-            Console.WriteLine(iip.ColumnTokensCountCommand);
+            Console.WriteLine(IDF.InverseDocumentFrequency("cosa", "Name"));
+            Console.ReadLine();
         }
     }
 }
