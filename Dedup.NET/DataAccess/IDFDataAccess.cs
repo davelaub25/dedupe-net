@@ -10,6 +10,7 @@ using System.Reflection;
 using System.IO;
 using DedupeNET.Core;
 using DedupeNET.Resources;
+using DedupeNET.Resources.Data;
 
 namespace DedupeNET.DataAccess
 {
@@ -40,7 +41,7 @@ namespace DedupeNET.DataAccess
                 DbCommand cmd = DbProviderFactory.CreateCommand();
                 cmd.Connection = cn;
 
-                cmd.CommandText = string.Format(DedupeNETResources.Data.Common.RecordCountCommand,
+                cmd.CommandText = string.Format(DedupeNETResources.GetStringResource(DataResources.RecordCountCommand),
                     defaultProvider.RelationName);
 
                 return (int)cmd.ExecuteScalar();
@@ -61,10 +62,10 @@ namespace DedupeNET.DataAccess
                 DbCommand cmd = DbProviderFactory.CreateCommand();
                 cmd.Connection = cn;
 
-                cmd.CommandText = string.Format(DedupeNETResources.Data.SqlServer.ColumnTokensCountCommand,
+                cmd.CommandText = string.Format(DedupeNETResources.GetStringResource(DataResources.ColumnTokensCountCommand),
                         defaultProvider.RelationName,
                         columnName,
-                        DedupeNETSettings.GeneralSettings.Tokenization.StopCharacters); ;
+                        DedupeNETSettings.GeneralSettings.Tokenization.StopCharacters);
 
                 using (DbDataReader reader = cmd.ExecuteReader())
                 {

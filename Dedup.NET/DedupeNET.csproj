@@ -56,9 +56,7 @@
     <Compile Include="Providers\IDF.cs" />
     <Compile Include="Providers\IDFProviderBase.cs" />
     <Compile Include="Providers\InMemoryIDFProvider.cs" />
-    <Compile Include="Resources\Data\Common\CommonDataResources.cs" />
     <Compile Include="Resources\Data\DataResources.cs" />
-    <Compile Include="Resources\Data\SqlServer\SqlServerResources.cs" />
     <Compile Include="Resources\DedupeNETResources.cs" />
     <Compile Include="StringFunctions\TokenEditDistance.cs" />
     <Compile Include="Core\VariableCostFunction.cs" />
@@ -78,7 +76,7 @@
     <Compile Include="Utils\Tokenizer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Data\SqlServer\ColumnTokensCount.sql" />
+    <EmbeddedResource Include="Resources\Data\SqlClient\ColumnTokensCount.sql" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

@@ -6,8 +6,8 @@ using DedupeNET.Configuration;
 using System.Configuration;
 using DedupeNET.Providers;
 using DedupeNET.Resources;
-using DedupeNET.Resources.Data.SqlServer;
 using DedupeNET.DataAccess;
+using DedupeNET.Resources.Data;
 
 namespace Tests
 {
@@ -15,8 +15,7 @@ namespace Tests
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(IDF.InverseDocumentFrequency("cosa", "Name"));
-            Console.ReadLine();
+            Console.WriteLine(DedupeNETResources.GetStringResource(DataResources.RecordCountCommand));
         }
     }
 }
