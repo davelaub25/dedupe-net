@@ -2,29 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using DedupeNET.Resources.Data.SqlServer;
-using DedupeNET.Resources.Data.Common;
 
 namespace DedupeNET.Resources.Data
 {
-    public class DataResources
+    public static class DataResources
     {
-        private static DataResources _instance = new DataResources();
-        public static DataResources Instance
+        public static string ColumnTokensCountCommand
         {
-            get { return _instance; }
+            get { return "Data|ColumnTokensCount.sql"; }
         }
 
-        private DataResources() { }
-
-        public SqlServerResources SqlServer
+        public static string RecordCountCommand
         {
-            get { return SqlServerResources.Instance; }
-        }
-
-        public CommonDataResources Common
-        {
-            get { return CommonDataResources.Instance; }
+            get { return "Data|RecordCount.sql"; }
         }
     }
 }
