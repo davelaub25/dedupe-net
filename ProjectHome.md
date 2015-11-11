@@ -1,0 +1,1 @@
+A consistent framework for data deduplication for .NET
